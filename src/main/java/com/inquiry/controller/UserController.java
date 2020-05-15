@@ -1,7 +1,12 @@
 package com.inquiry.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inquiry.model.Activity;
 import com.inquiry.model.User;
+import com.inquiry.repository.ActivityRepository;
 import com.inquiry.repository.InquiryRepository;
 import com.inquiry.repository.StudentRepository;
 import com.inquiry.repository.UserRepository;
@@ -30,6 +37,8 @@ public class UserController {
 	StudentRepository studentRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	ActivityRepository activityRepository;
 	
 	@PostMapping("/LoginController")
 	public void loginController(HttpServletRequest request, HttpServletResponse response) {
@@ -39,6 +48,7 @@ public class UserController {
 		user.setUsername(request.getParameter("username"));
 		user.setPassword(request.getParameter("password"));
     	
+//Finds User from Database
     	User u = userService.findByUsernameAndPassword(user.getUsername(), user.getPassword());
 
 		if(u != null)
@@ -50,7 +60,18 @@ public class UserController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		/*Activity Starts*/
+			Activity activity = new Activity();
+			Date dt = Calendar.getInstance().getTime(); 
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+			String date = dateFormat.format(dt);
+			activity.setAdminName(user.getUsername());
+			activity.setDate_time(date);
+			activity.setType("SignIn");
+			activityRepository.save(activity);
+		/*Activity Ends*/
 			
+	/*Index Count Starts*/
 			int count1 = (int) inquiryRepository.count();
 			int count2 = inquiryRepository.countByDel(0);
 			int count3 = studentRepository.countByDel(0);
@@ -59,6 +80,7 @@ public class UserController {
 			session.setAttribute("count2", count2);
 			session.setAttribute("count3", count3);
 			session.setAttribute("count4", count4);
+	/*!Index Count Ends*/
 		}
 		else
 		{
@@ -83,6 +105,17 @@ public class UserController {
     	
 		User u = userService.signUp(user);
 		if(u != null) {
+		/*Activity Starts*/
+			Activity activity = new Activity();
+			Date dt = Calendar.getInstance().getTime(); 
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+			String date = dateFormat.format(dt);
+			activity.setAdminName("jaymodi99");
+			activity.setDate_time(date);
+			activity.setType("SignUp");
+			activity.setDescription("New Admin " +u.getUsername());
+			activityRepository.save(activity);
+		/*Activity Ends*/
 			try {
 				response.sendRedirect("index");
 			} catch (IOException e) {
@@ -125,6 +158,32 @@ public class UserController {
 		
 		request.setAttribute("viewAllList", viewAllList);
 		return new ModelAndView("Setting");
+	}
+	
+	@RequestMapping("AdminDeleteController")
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		Optional<User> u = userRepository.findById(id);
+		userRepository.deleteById(id);
+		
+	/*Activity Starts*/
+		Activity activity = new Activity();
+		Date dt = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date = dateFormat.format(dt);
+		activity.setAdminName("jaymodi99");
+		activity.setDate_time(date);
+		activity.setType("Delete Admin");
+		activity.setDescription("Delete Admin " +u.get().getUsername());
+		activityRepository.save(activity);
+	/*Activity Ends*/
+		
+		try {
+			response.sendRedirect("Setting");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

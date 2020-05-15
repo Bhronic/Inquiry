@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.inquiry.model.Student;
+import com.inquiry.model.Activity;
 import com.inquiry.model.Fees;
 import com.inquiry.model.Inquiry;
+import com.inquiry.repository.ActivityRepository;
 import com.inquiry.repository.FeesRepository;
 import com.inquiry.repository.InquiryRepository;
 import com.inquiry.repository.StudentRepository;
@@ -37,6 +39,8 @@ public class StudentController {
 	StudentRepository studentRepository;
 	@Autowired
 	FeesRepository feesRepository;
+	@Autowired
+	ActivityRepository activityRepository;
 	
 	@RequestMapping("StudentForm")
 	public ModelAndView studentForm(HttpServletRequest request) {
@@ -81,6 +85,18 @@ public class StudentController {
 		inquiryRepository.deleteById(id);
 		
 		studentService.addStudent(student);
+		
+		/*Activity Starts*/
+			Activity activity = new Activity();
+			java.util.Date dt1 = Calendar.getInstance().getTime(); 
+			DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+			String date = dateFormat1.format(dt1);
+			activity.setAdminName((String)session.getAttribute("uname"));
+			activity.setDate_time(date);
+			activity.setType("New Student");
+			activity.setDescription("New Student " +student.getStudent_name());
+			activityRepository.save(activity);
+		/*Activity Ends*/
 		
 		int count1 = (int) inquiryRepository.count();
 		int count2 = inquiryRepository.countByDel(0);
@@ -147,6 +163,19 @@ public class StudentController {
 		
 		studentService.addStudent(student);
 		
+		HttpSession session=request.getSession(false);
+	/*Activity Starts*/
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date);
+		activity.setType("Edit Student");
+		activity.setDescription("Edit Student " +student.getStudent_name());
+		activityRepository.save(activity);
+	/*Activity Ends*/
+		
 		try {
 			response.sendRedirect("ViewStudent");
 		} catch (IOException e) {
@@ -167,6 +196,18 @@ public class StudentController {
 		int count3 = studentRepository.countByDel(0);
 		session.setAttribute("count3", count3);
 		
+	/*Activity Starts*/
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date);
+		activity.setType("Delete Student");
+		activity.setDescription("Delete Student " +student.getStudent_name());
+		activityRepository.save(activity);
+	/*Activity Ends*/
+		
 		try {
 			response.sendRedirect("ViewStudent");
 		} catch (IOException e) {
@@ -186,6 +227,18 @@ public class StudentController {
 		HttpSession session=request.getSession(false);
 		int count3 = inquiryRepository.countByDel(0);
 		session.setAttribute("count3", count3);
+		
+		/*Activity Starts*/
+			Activity activity = new Activity();
+			java.util.Date dt1 = Calendar.getInstance().getTime(); 
+			DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+			String date = dateFormat1.format(dt1);
+			activity.setAdminName((String)session.getAttribute("uname"));
+			activity.setDate_time(date);
+			activity.setType("Retrieve Student");
+			activity.setDescription("Retrieve Student " +student.getStudent_name());
+			activityRepository.save(activity);
+		/*Activity Ends*/
 		
 		try {
 			response.sendRedirect("ViewStudent");

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inquiry.model.Activity;
 import com.inquiry.model.Inquiry;
+import com.inquiry.repository.ActivityRepository;
 import com.inquiry.repository.InquiryRepository;
 import com.inquiry.service.InquiryService;
 
@@ -29,6 +31,8 @@ public class InquiryController {
 	InquiryService inquiryService;
 	@Autowired
 	InquiryRepository inquiryRepository;
+	@Autowired
+	ActivityRepository activityRepository;
 	
 	@PostMapping("InquiryFormController") 
 	public void inquiryForm(HttpServletRequest request, HttpServletResponse response) {
@@ -57,6 +61,18 @@ public class InquiryController {
 		inquiry.setDel(0);
 		
 		inquiryService.addInquiry(inquiry);
+		
+	/*Activity Starts*/
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date);
+		activity.setType("New Inquiry");
+		activity.setDescription("New Inquiry " +inquiry.getStudent_name());
+		activityRepository.save(activity);
+	/*Activity Ends*/
 		
 		int count1 = (int) inquiryRepository.count();
 		int count2 = inquiryRepository.countByDel(0);
@@ -117,6 +133,19 @@ public class InquiryController {
 		
 		inquiryService.addInquiry(inquiry);
 		
+		HttpSession session=request.getSession(false);
+	/*Activity Starts*/
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date);
+		activity.setType("Edit Inquiry");
+		activity.setDescription("Edit Inquiry " +inquiry.getStudent_name());
+		activityRepository.save(activity);
+	/*Activity Ends*/
+		
 		try {
 			response.sendRedirect("ViewInquiry");
 		} catch (IOException e) {
@@ -137,6 +166,18 @@ public class InquiryController {
 		int count2 = inquiryRepository.countByDel(0);
 		session.setAttribute("count2", count2);
 		
+	/*Activity Starts*/
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date);
+		activity.setType("Delete Inquiry");
+		activity.setDescription("Delete Inquiry " +inquiry.getStudent_name());
+		activityRepository.save(activity);
+	/*Activity Ends*/
+		
 		try {
 			response.sendRedirect("ViewInquiry");
 		} catch (IOException e) {
@@ -156,6 +197,18 @@ public class InquiryController {
 		HttpSession session=request.getSession(false);
 		int count2 = inquiryRepository.countByDel(0);
 		session.setAttribute("count2", count2);
+		
+		/*Activity Starts*/
+			Activity activity = new Activity();
+			java.util.Date dt1 = Calendar.getInstance().getTime(); 
+			DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+			String date = dateFormat1.format(dt1);
+			activity.setAdminName((String)session.getAttribute("uname"));
+			activity.setDate_time(date);
+			activity.setType("Retrieve Inquiry");
+			activity.setDescription("Retrieve Inquiry " +inquiry.getStudent_name());
+			activityRepository.save(activity);
+		/*Activity Ends*/
 		
 		try {
 			response.sendRedirect("ViewInquiry");

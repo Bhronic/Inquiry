@@ -1,11 +1,11 @@
-<%@page import="com.inquiry.model.User"%>
+<%@page import="com.inquiry.model.Activity"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ page import="java.util.List" %>
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Settings</title>
+<title>View Activity</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Glance Design Dashboard Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -171,57 +171,48 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<div id="page-wrapper">
 			<div class="main-page">
 				<div class="tables">
-					<h2 class="title1">Settings</h2>
+					<h2 class="title1">View Activity</h2>
 					<div class="bs-example widget-shadow" data-example-id="hoverable-table"> 
-						<h4>Admins</h4>
+						<h4>Table</h4>
 						<table class="table table-hover"> 
 							<thead> 
 								<tr> 
 									<th>#</th> 
-									<th>Name</th>
-									<th>Email</th> 
-									<th>Gender</th> 
-									<th>Username</th>
-									<th>Password</th>
-									<th>View Activity</th> 
-									<th>Delete</th> 
+									<th>Admin</th>
+									<th>Date & Time</th> 
+									<th>Type</th> 
+									<th>Description</th> 
 								</tr> 
 							</thead> 
 							<tbody>
 <%
-	List<User> list1 = (List<User>) request.getAttribute("viewAllList");
+	List<Activity> list1 = (List<Activity>) request.getAttribute("activityList");
 	int count = 0;
-	if(list1 != null)
-	{
-		for(User user :list1)
+		for(Activity activity :list1)
 		{
 		count++;
 %>
  
 								<tr>
 									<th scope="row"><%=count %></th> 
-									<td><%=user.getFname() +" " +user.getLname()%></td>
-									<td><%=user.getEmail() %></td> 
-									<td><%=user.getGender() %></td> 
-									<td><%=user.getUsername() %></td>
-									<td><%=user.getPassword() %></td>
-									<td><a href="ViewActivity?admin=<%=user.getUsername() %>">View Activity</a></td>
-									<td>
-									<%
-									int r = user.getUsername().compareTo("jaymodi99");
-									if(r != 0)
-									{
-									%>
-										<a href="AdminDeleteController?id=<%=user.getID() %>">Delete</a>
-									<%
-									}
-									%>
-									</td> 
-								</tr>
-<%}} %>
+									<td><%=activity.getAdminName() %></td>
+									<td><%=activity.getDate_time() %></td> 
+									<td><%=activity.getType() %></td> 
+									<td><%=activity.getDescription() %></td>
+									</tr>
+<%	
+ 	} 
+	if(list1.isEmpty()) 
+	{
+ %>
+ 	<tr><td colspan="5" style="text-align: center;">No Records Found</td></tr>
+ <%
+ 	}
+ %>
 							</tbody> 
 						</table>
-						<button type="reset" class="btn btn-default" onClick="window.location.replace('index')">Home</button>
+						<button type="reset" class="btn btn-default" onClick="window.location.replace('index.jsp')">Home</button>
+						<button type="reset" class="btn btn-default" onClick="window.location.replace('Setting.jsp')">Back</button>
 					</div>
 				</div>
 			</div>
