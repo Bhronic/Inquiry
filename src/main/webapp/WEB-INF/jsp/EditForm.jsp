@@ -107,7 +107,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								</a>
 							</li>
 							<li class="treeview">
-								<a href="" style="background-color: black"> 
+								<a href="ViewInquiry" style="background-color: black"> 
 									<i class="fa fa-table"></i> 
 									<span>View Inquiry</span>
 								</a>
@@ -169,7 +169,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								}
 								%>
 								<li> <a href="Profile"><i class="fa fa-suitcase"></i> Profile</a> </li> 
-								<li> <a href="Logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
+								<li> <a href="LogoutController"><i class="fa fa-sign-out"></i> Logout</a> </li>
 							</ul>
 						</li>
 					</ul>

@@ -158,7 +158,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								}
 								%>
 								<li> <a href="Profile"><i class="fa fa-suitcase"></i> Profile</a> </li> 
-								<li> <a href="Logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
+								<li> <a href="LogoutController"><i class="fa fa-sign-out"></i> Logout</a> </li>
 							</ul>
 						</li>
 					</ul>

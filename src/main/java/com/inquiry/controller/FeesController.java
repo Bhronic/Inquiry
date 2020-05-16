@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.inquiry.model.Activity;
 import com.inquiry.model.Fees;
 import com.inquiry.model.Student;
-import com.inquiry.repository.ActivityRepository;
 import com.inquiry.repository.StudentRepository;
 import com.inquiry.service.FeesService;
 
@@ -33,7 +31,7 @@ public class FeesController {
 	@Autowired
 	StudentRepository studentRepository;
 	@Autowired
-	ActivityRepository activityRepository;
+	ActivityController activityController;
 	
 	@RequestMapping("ViewFees")
 	public ModelAndView viewFees(HttpServletRequest request, HttpServletResponse response) {
@@ -88,18 +86,8 @@ public class FeesController {
 		int count4 = studentRepository.countPendingFees();
 		session.setAttribute("count4", count4);
 		
-	/*Activity Starts*/
-		Activity activity = new Activity();
-		java.util.Date dt1 = Calendar.getInstance().getTime(); 
-		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
-		String date1 = dateFormat1.format(dt1);
-		activity.setAdminName((String)session.getAttribute("uname"));
-		activity.setDate_time(date1);
-		activity.setType("Pay Fee");
-		activity.setDescription("Pay fee of " +fees.getStudent_name() +" Amount:" +fees.getFees_amount());
-		activityRepository.save(activity);
-	/*Activity Ends*/
-		
+		activityController.payFeeActivity((String)session.getAttribute("uname"), fees.getStudent_name(), fees.getFees_amount());
+
 		try {
 			response.sendRedirect("ViewFees");
 		} catch (IOException e) {
