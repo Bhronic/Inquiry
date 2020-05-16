@@ -191,7 +191,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">ID</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.get().getID() %>">
+								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.get().getID() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
