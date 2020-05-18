@@ -172,7 +172,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<div id="page-wrapper">
 			<div class="main-page">
 <%
-	Optional<Student> student = (Optional<Student>)request.getAttribute("student");
+	Student student = (Student)request.getAttribute("student");
 	
 %>	
 				<div class="tables">
@@ -182,19 +182,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<div class="form-group">
 								<label for="focusedinput" class="col-sm-2 control-label">Student ID</label>
 								<div class="col-sm-8">
-									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.get().getID() %>" disabled>
+									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>" disabled>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getStudent_name() %>" disabled>
+									<input type="text" class="form-control1" id="focusedinput" value="<%=student.getStudent_name() %>" disabled>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="focusedinput" class="col-sm-2 control-label">Fees</label>
 								<div class="col-sm-8">
-									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.get().getFees() %>" disabled>
+									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getFees() %>" disabled>
 								</div>
 							</div>
 						</form>
@@ -246,13 +246,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 									<td></td>
 									<td></td>
 									<th>Fees Left :</th>
-									<td><%=(student.get().getFees() - total) %></td>
+									<td><%=(student.getFees() - total) %></td>
 									<td></td>
 								</tr>
 							</tbody> 
 						</table>
 						<button type="reset" class="btn btn-default" onClick="window.location.replace('index')">Home</button>
-						<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudentDetails?id=<%=student.get().getID() %>')">Back</button>
+						<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudentDetails?id=<%=student.getID() %>')">Back</button>
 					</div>
 				</div>
 			</div>

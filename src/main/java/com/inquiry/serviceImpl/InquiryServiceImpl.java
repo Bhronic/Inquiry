@@ -35,4 +35,19 @@ public class InquiryServiceImpl implements InquiryService {
 		return inquiryDao.viewPendingInquiry(del);
 	}
 
+	@Override
+	public long countAllInquiry() {
+		return inquiryDao.countAllInquiry();
+	}
+
+	@Override
+	public int countPengingInquiry(int del) {
+		return inquiryDao.countPengingInquiry(del);
+	}
+
+	@Override
+	public Inquiry findById(int id) {
+		return inquiryDao.findById(id);
+	}
+
 }

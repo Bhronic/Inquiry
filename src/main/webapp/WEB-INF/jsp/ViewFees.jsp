@@ -248,7 +248,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	count = 0;
 		for(Student student :list2)
 		{
-			double feesLeft = (student.getFees() - student.getFees_paid());
+			double feesLeft = (student.getFees() - student.getFeesPaid());
 			count++;
 %>
  
@@ -258,7 +258,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 												<td><%=student.getID() %></td>
 												<td><%=student.getCourse() %></td> 
 												<td><%=student.getFees() %></td>
-												<td><%=student.getFees_paid() %></td>
+												<td><%=student.getFeesPaid() %></td>
 												<td><%=feesLeft %>
 												<td><a href="PayFee?id=<%=student.getID() %>">Pay Fee</a></td>
 											</tr>
@@ -301,7 +301,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	count = 0;
 		for(Student student :list3)
 		{
-			double feesLeft = (student.getFees() - student.getFees_paid());
+			double feesLeft = (student.getFees() - student.getFeesPaid());
 			count++;
 %>
  
@@ -311,7 +311,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 												<td><%=student.getID() %></td>
 												<td><%=student.getCourse() %></td> 
 												<td><%=student.getFees() %></td>
-												<td><%=student.getFees_paid() %></td>
+												<td><%=student.getFeesPaid() %></td>
 												<td><%=feesLeft %></td>
 												<td><a href="PayFee?id=<%=student.getID() %>">Pay Fee</a></td> 
 											</tr>

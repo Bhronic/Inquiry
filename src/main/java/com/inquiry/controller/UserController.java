@@ -1,6 +1,10 @@
 package com.inquiry.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inquiry.model.Activity;
 import com.inquiry.model.User;
-import com.inquiry.repository.InquiryRepository;
-import com.inquiry.repository.StudentRepository;
-import com.inquiry.repository.UserRepository;
+import com.inquiry.repository.ActivityRepository;
 import com.inquiry.service.UserService;
 
 @Controller
@@ -26,13 +29,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	@Autowired
-	InquiryRepository inquiryRepository;
-	@Autowired
-	StudentRepository studentRepository;
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	ActivityController activityController;
+	ActivityRepository activityRepository;
 	
 	@PostMapping("/LoginController")
 	public void loginController(HttpServletRequest request, HttpServletResponse response) {
@@ -55,13 +52,20 @@ public class UserController {
 				e.printStackTrace();
 			}
 			
-		activityController.loginActivity(user.getUsername());
+		Activity activity = new Activity();
+		Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName(user.getUsername());
+		activity.setDate_time(date1);
+		activity.setType("SignIn");
+		activityRepository.save(activity);
 			
 	/*Index Count Starts*/
-			int count1 = (int) inquiryRepository.count();
-			int count2 = inquiryRepository.countByDel(0);
-			int count3 = studentRepository.countByDel(0);
-			int count4 = studentRepository.countPendingFees();
+			int count1 = userService.countAllInquiry();
+			int count2 = userService.countPendingInquiry();
+			int count3 = userService.countStudent();
+			int count4 = userService.countPendingFees();
 			session.setAttribute("count1", count1);
 			session.setAttribute("count2", count2);
 			session.setAttribute("count3", count3);
@@ -92,7 +96,15 @@ public class UserController {
 		User u = userService.signUp(user);
 		if(u != null) {
 
-			activityController.signUpActivity(user.getUsername());
+			Activity activity = new Activity();
+			Date dt1 = Calendar.getInstance().getTime(); 
+			DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+			String date1 = dateFormat1.format(dt1);
+			activity.setAdminName("jaymodi99");
+			activity.setDate_time(date1);
+			activity.setType("SignUp");
+			activity.setDescription("New Admin " +user.getUsername());
+			activityRepository.save(activity);
 			
 			try {
 				response.sendRedirect("index");
@@ -127,7 +139,7 @@ public class UserController {
 		
 		HttpSession session=request.getSession(false);  
 		String username=(String)session.getAttribute("uname");
-		User user = userRepository.findByUsername(username);
+		User user = userService.findByUsername(username);
 		
 		request.setAttribute("user", user);
 		
@@ -146,10 +158,18 @@ public class UserController {
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<User> u = userRepository.findById(id);
-		userRepository.deleteById(id);
+		Optional<User> u = userService.findById(id);
+		userService.deleteById(id);
 		
-		activityController.deleteUserActivity(u.get().getUsername());
+		Activity activity = new Activity();
+		Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName("jaymodi99");
+		activity.setDate_time(date1);
+		activity.setType("Delete Admin");
+		activity.setDescription("Delete Admin " +u.get().getUsername());
+		activityRepository.save(activity);
 		
 		try {
 			response.sendRedirect("Setting");

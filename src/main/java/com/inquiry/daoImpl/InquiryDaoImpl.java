@@ -35,4 +35,19 @@ public class InquiryDaoImpl implements InquiryDao {
 		return inquiryRepository.findByDel(del);
 	}
 
+	@Override
+	public long countAllInquiry() {
+		return inquiryRepository.count();
+	}
+
+	@Override
+	public int countPengingInquiry(int del) {
+		return inquiryRepository.countByDel(del);
+	}
+
+	@Override
+	public Inquiry findById(int id) {
+		return inquiryRepository.findByID(id);
+	}
+
 }

@@ -182,7 +182,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- main content start-->
 	
 <%
-	Optional<Inquiry> inquiry = (Optional<Inquiry>)request.getAttribute("inquiry");
+	Inquiry inquiry = (Inquiry)request.getAttribute("inquiry");
 %>
 	
 	<div id="page-wrapper">
@@ -191,51 +191,51 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<h3 class="title1">Inquiry Form :</h3>
 				<div class="form-three widget-shadow">
 					<form class="form-horizontal" action="StudentFormController" method="post">
-					<input type="hidden" class="form-control1" id="focusedinput" name="id" value="<%=inquiry.get().getID() %>">
+					<input type="hidden" class="form-control1" id="focusedinput" name="id" value="<%=inquiry.getID() %>">
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="studentName" placeholder="Enter Student Name" value="<%=inquiry.get().getStudent_name() %>" required>
+								<input type="text" class="form-control1" id="focusedinput" name="studentName" placeholder="Enter Student Name" value="<%=inquiry.getStudent_name() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Mobile Number</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="mobileNumber" placeholder="Enter Mobile Number" value="<%=inquiry.get().getMob_no() %>" required>
+								<input type="number" class="form-control1" id="focusedinput" name="mobileNumber" placeholder="Enter Mobile Number" value="<%=inquiry.getMob_no() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Email Id</label>
 							<div class="col-sm-8">
-								<input type="email" class="form-control1" id="focusedinput" name="email" placeholder="Enter Email Id" value="<%=inquiry.get().getEmail() %>" required>
+								<input type="email" class="form-control1" id="focusedinput" name="email" placeholder="Enter Email Id" value="<%=inquiry.getEmail() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Date of Birth</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" name="birthDate" value="<%=inquiry.get().getDob() %>" required>
+								<input type="date" class="form-control1" id="focusedinput" name="birthDate" value="<%=inquiry.getDob() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Address</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="address" placeholder="Enter Address" value="<%=inquiry.get().getAddress() %>" required>
+								<input type="text" class="form-control1" id="focusedinput" name="address" placeholder="Enter Address" value="<%=inquiry.getAddress() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Qualification</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="qualification" placeholder="Enter Qualification" value="<%=inquiry.get().getQualification() %>" required>
+								<input type="text" class="form-control1" id="focusedinput" name="qualification" placeholder="Enter Qualification" value="<%=inquiry.getQualification() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
 								<select name="course" id="selector1" class="form-control1" >
-									<option value="Java" <%if(inquiry.get().getCourse().equals("Java")){ %>selected<%} %>>Java</option>
-									<option value="Python" <%if(inquiry.get().getCourse().equals("Python")){ %>selected<%} %>>Python</option>
-									<option value="C++" <%if(inquiry.get().getCourse().equals("C++")){ %>selected<%} %>>C++</option>
-									<option value=".Net" <%if(inquiry.get().getCourse().equals(".Net")){ %>selected<%} %>>.Net</option>
+									<option value="Java" <%if(inquiry.getCourse().equals("Java")){ %>selected<%} %>>Java</option>
+									<option value="Python" <%if(inquiry.getCourse().equals("Python")){ %>selected<%} %>>Python</option>
+									<option value="C++" <%if(inquiry.getCourse().equals("C++")){ %>selected<%} %>>C++</option>
+									<option value=".Net" <%if(inquiry.getCourse().equals(".Net")){ %>selected<%} %>>.Net</option>
 								</select>
 							</div>
 						</div>
@@ -243,9 +243,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<label for="selector1" class="col-sm-2 control-label">Preferred Batch Time</label>
 							<div class="col-sm-8">
 								<select name="batchTime" id="selector1" class="form-control1">
-									<option value="Morning" <%if(inquiry.get().getBatch_time().equals("Morning")){ %>selected<%} %>>Morning</option>
-									<option value="Afternoon" <%if(inquiry.get().getBatch_time().equals("Afternoon")){ %>selected<%} %>>Afternoon</option>
-									<option value="Evening" <%if(inquiry.get().getBatch_time().equals("Evening")){ %>selected<%} %>>Evening</option>
+									<option value="Morning" <%if(inquiry.getBatch_time().equals("Morning")){ %>selected<%} %>>Morning</option>
+									<option value="Afternoon" <%if(inquiry.getBatch_time().equals("Afternoon")){ %>selected<%} %>>Afternoon</option>
+									<option value="Evening" <%if(inquiry.getBatch_time().equals("Evening")){ %>selected<%} %>>Evening</option>
 								</select>
 							</div>
 						</div>

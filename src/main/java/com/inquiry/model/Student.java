@@ -38,7 +38,8 @@ public class Student {
 	@Column(name = "teacher_appointed")
 	private String teacher;
 	
-	private Double fees_paid;
+	@Column(name = "fees_paid")
+	private Double feesPaid;
 	
 	@Column(columnDefinition = "int default 0")
 	private int del;
@@ -141,15 +142,15 @@ public class Student {
 		this.teacher = teacher;
 	}
 
-	public Double getFees_paid() {
-		return fees_paid;
+	public Double getFeesPaid() {
+		return feesPaid;
 	}
 
-	public void setFees_paid(Double fees_paid) {
-		this.fees_paid = fees_paid;
+	public void setFeesPaid(Double feesPaid) {
+		this.feesPaid = feesPaid;
 	}
 
-	public int getDelete() {
+	public int getDel() {
 		return del;
 	}
 

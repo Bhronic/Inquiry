@@ -180,7 +180,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 	<!-- main content start-->
 <%
-	Optional<Student> student = (Optional<Student>)request.getAttribute("student");
+	Student student = (Student)request.getAttribute("student");
 %>	
 	<div id="page-wrapper">
 		<div class="main-page">
@@ -191,83 +191,83 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">ID</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.get().getID() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getStudent_name() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getStudent_name() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Mobile Number</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=student.get().getMob_no() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" value="<%=student.getMob_no() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-8">
-								<input type="email" class="form-control1" id="focusedinput" value="<%=student.get().getEmail() %>" disabled>
+								<input type="email" class="form-control1" id="focusedinput" value="<%=student.getEmail() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Date of Birth</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" value="<%=student.get().getDob() %>" disabled>
+								<input type="date" class="form-control1" id="focusedinput" value="<%=student.getDob() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Address</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getAddress() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getAddress() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Qualification</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getQualification() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getQualification() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getCourse() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getCourse() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Batch Time</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getBatch_time() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getBatch_time() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Joining Date</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" value="<%=student.get().getJoining_date() %>" disabled>
+								<input type="date" class="form-control1" id="focusedinput" value="<%=student.getJoining_date() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Teacher Appointed</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getTeacher() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getTeacher() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Fees</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=student.get().getFees() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" value="<%=student.getFees() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Fees Paid</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.get().getFees_paid() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getFeesPaid() %>" disabled>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">
-							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewPaymentHistory?id=<%=student.get().getID() %>')">View Payment History</button>
+							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewPaymentHistory?id=<%=student.getID() %>')">View Payment History</button>
 							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudent')">Back</button>
 						</div>
 					</form>

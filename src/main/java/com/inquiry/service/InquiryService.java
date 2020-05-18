@@ -14,4 +14,10 @@ public interface InquiryService {
 	
 	public List<Inquiry> viewPendingInquiry(int del);
 	
+	public long countAllInquiry();
+	
+	public int countPengingInquiry(int del);
+	
+	public Inquiry findById(int id);
+	
 }

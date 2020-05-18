@@ -6,7 +6,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inquiry.model.Activity;
 import com.inquiry.model.Fees;
 import com.inquiry.model.Inquiry;
 import com.inquiry.model.Student;
-import com.inquiry.repository.FeesRepository;
-import com.inquiry.repository.InquiryRepository;
-import com.inquiry.repository.StudentRepository;
+import com.inquiry.repository.ActivityRepository;
 import com.inquiry.service.StudentService;
 
 @Controller
@@ -32,19 +30,13 @@ public class StudentController {
 	@Autowired
 	StudentService studentService;
 	@Autowired
-	InquiryRepository inquiryRepository;
-	@Autowired
-	StudentRepository studentRepository;
-	@Autowired
-	FeesRepository feesRepository;
-	@Autowired
-	ActivityController activityController;
+	ActivityRepository activityRepository;
 	
 	@RequestMapping("StudentForm")
 	public ModelAndView studentForm(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<Inquiry> inquiry = inquiryRepository.findById(id);
+		Inquiry inquiry = studentService.findInquiryById(id);
 		
 		request.setAttribute("inquiry", inquiry);
 		
@@ -78,23 +70,31 @@ public class StudentController {
 		student.setJoining_date(joiningDate);
 		student.setFees(fees);
 		student.setTeacher(request.getParameter("teacher_appointed"));
-		student.setFees_paid((double) 0);
+		student.setFeesPaid((double) 0);
 		
-		inquiryRepository.deleteById(id);
+		studentService.deleteInquiryById(id);
 		
 		studentService.addStudent(student);
 		
-		activityController.addStudentActivity((String)session.getAttribute("uname"), student.getStudent_name());
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date1);
+		activity.setType("New Student");
+		activity.setDescription("New Student " +student.getStudent_name());
+		activityRepository.save(activity);
 		
-		int count1 = (int) inquiryRepository.count();
-		int count2 = inquiryRepository.countByDel(0);
-		int count3 = studentRepository.countByDel(0);
-		int count4 = studentRepository.countPendingFees();
+		int count1 = (int) session.getAttribute("count1");
+		int count2 = (int) session.getAttribute("count2");
+		int count3 = (int) session.getAttribute("count3");
+		int count4 = (int) session.getAttribute("count4");
 		
-		session.setAttribute("count1", count1);
-		session.setAttribute("count2", count2);
-		session.setAttribute("count3", count3);
-		session.setAttribute("count4", count4);
+		session.setAttribute("count1", count1-1);
+		session.setAttribute("count2", count2-1);
+		session.setAttribute("count3", count3+1);
+		session.setAttribute("count4", count4+1);
 		try {
 			response.sendRedirect("index");
 		} catch (IOException e) {
@@ -118,7 +118,7 @@ public class StudentController {
 	public ModelAndView editForm(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<Student> student = studentRepository.findById(id);
+		Student student = studentService.findById(id);
 		
 		request.setAttribute("student", student);
 		
@@ -147,14 +147,22 @@ public class StudentController {
 		student.setJoining_date(joiningDate);
 		student.setFees(fees);
 		student.setTeacher(request.getParameter("teacher_appointed"));
-		student.setFees_paid((double) 0);
+		student.setFeesPaid((double) 0);
 		
 		studentService.addStudent(student);
 		
 		HttpSession session=request.getSession(false);
 		
-		activityController.editStudentActivity((String)session.getAttribute("uname"), student.getStudent_name());
-
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date1);
+		activity.setType("Edit Student");
+		activity.setDescription("Edit Student " +student.getStudent_name());
+		activityRepository.save(activity);
+		
 		try {
 			response.sendRedirect("ViewStudent");
 		} catch (IOException e) {
@@ -166,17 +174,25 @@ public class StudentController {
 	public void deleteInquiry(HttpServletRequest request, HttpServletResponse response) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentRepository.findByID(id);
+		Student student = studentService.findById(id);
 		student.setDel(1);
 		
-		studentRepository.save(student);
+		studentService.addStudent(student);
 		
 		HttpSession session=request.getSession(false);
-		int count3 = studentRepository.countByDel(0);
-		session.setAttribute("count3", count3);
+		int count3 = (int) session.getAttribute("count3");
+		session.setAttribute("count3", count3-1);
 		
-		activityController.deleteStudentActivity((String)session.getAttribute("uname"), student.getStudent_name());
-
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date1);
+		activity.setType("Delete Student");
+		activity.setDescription("Delete Student " +student.getStudent_name());
+		activityRepository.save(activity);
+		
 		try {
 			response.sendRedirect("ViewStudent");
 		} catch (IOException e) {
@@ -188,17 +204,25 @@ public class StudentController {
 	public void RetrieveInquiryController(HttpServletRequest request, HttpServletResponse response) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentRepository.findByID(id);
+		Student student = studentService.findById(id);
 		student.setDel(0);
 		
-		studentRepository.save(student);
+		studentService.addStudent(student);
 		
 		HttpSession session=request.getSession(false);
-		int count3 = inquiryRepository.countByDel(0);
-		session.setAttribute("count3", count3);
+		int count3 = (int) session.getAttribute("count3");
+		session.setAttribute("count3", count3+1);
 		
-		activityController.retrieveStudentActivity((String)session.getAttribute("uname"), student.getStudent_name());
-
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date1);
+		activity.setType("Retrieve Student");
+		activity.setDescription("Retrieve Student " +student.getStudent_name());
+		activityRepository.save(activity);
+		
 		try {
 			response.sendRedirect("ViewStudent");
 		} catch (IOException e) {
@@ -210,7 +234,7 @@ public class StudentController {
 	public ModelAndView viewStudentDetails(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<Student> student = studentRepository.findById(id);
+		Student student = studentService.findById(id);
 		
 		request.setAttribute("student", student);
 		
@@ -221,11 +245,11 @@ public class StudentController {
 	public ModelAndView viewPaymentHistory(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<Student> student = studentRepository.findById(id);
+		Student student = studentService.findById(id);
 		
 		request.setAttribute("student", student);
 		
-		List<Fees> feesHistoryList = feesRepository.findAllByStudentId(id);
+		List<Fees> feesHistoryList = studentService.findFeesHistoryById(id);
 		request.setAttribute("feesHistoryList", feesHistoryList);
 		
 		return new ModelAndView("ViewPaymentHistory");
