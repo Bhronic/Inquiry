@@ -1,13 +1,14 @@
 <%@page import="com.inquiry.model.StudentCourse"%>
 <%@page import="com.inquiry.model.StudentDetails"%>
-<%@page import="com.inquiry.model.Student"%>
+<%@page import="com.inquiry.model.Fees"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ page import="java.util.List" %>
+    <%@page import="com.inquiry.model.Student, java.util.Optional"%>
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Fees</title>
+<title>Course History</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Glance Design Dashboard Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -45,10 +46,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
-
-<script src="js/sorttable.js"></script>
-<script src="js/searchTable.js"></script>
-
 <style>
 #chartdiv {
   width: 100%;
@@ -113,12 +110,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 </a>
               </li>
               <li class="treeview">
-                <a href="ViewStudent">
+                <a href="ViewStudent" style="background-color: black">
                 <i class="fa fa-users"></i> <span>View Student</span>
                 </a>
               </li>
 	          <li class="treeview">
-	              <a href="" style="background-color: black">
+	              <a href="ViewFees">
 	              <i class="fa fa-dollar"></i> <span>Fees</span>
 	              </a>
 	          </li>
@@ -178,194 +175,82 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		</div><br>
 		<!-- //header-ends -->
 		<!-- main content start-->	
+		
 		<div id="page-wrapper">
-			<div class=" grids-right widget-shadow">
-				<ul id="myTabs" class="nav nav-tabs" role="tablist">
-					<li role="presentation">
-						<a href="#all" id="all-tab" role="tab" data-toggle="tab">Fees Paid</a>
-					</li>
-					<li role="presentation">
-						<a href="#deleted" id="deleted-tab" role="tab" data-toggle="tab">Fees Pending</a>
-					</li> 
-					<li role="presentation"class="active">
-						<a href="#pending" role="tab" id="pending-tab" data-toggle="tab">Fees Due</a>
-					</li> 
-				</ul>
-				<div id="myTabContent" class="tab-content scrollbar1"> 
-					<div role="tabpanel" class="tab-pane fade" id="all" aria-labelledby="all-tab"> 
-						<p>
-							<div class="tables">
-								<div class="bs-example" data-example-id="hoverable-table">
-									<table class="table table-hover"> 
-										<thead> 
-											<tr> 
-												<th>#</th> 
-												<th>Student Name</th>
-												<th>Student ID</th> 
-												<th>Course</th> 
-												<th>Total Fees</th> 
-											</tr> 
-										</thead>
+			<div class="main-page">
 <%
-	List<StudentDetails> list1 = (List<StudentDetails>) request.getAttribute("viewFeesPaidList");
+	StudentDetails student = (StudentDetails)request.getAttribute("student");
+	List<StudentCourse> list11 = student.getStudentCourse();
+%>
+				<div class="tables">
+					<h2 class="title1">Course History</h2>
+					<div class="bs-example widget-shadow" data-example-id="hoverable-table">
+						<form class="form-horizontal" action="">
+							<div class="form-group">
+								<label for="focusedinput" class="col-sm-2 control-label">Student ID</label>
+								<div class="col-sm-8">
+									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>" disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control1" id="focusedinput" value="<%=student.getStudent_name() %>" disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="focusedinput" class="col-sm-2 control-label">Total Course</label>
+								<div class="col-sm-8">
+									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getTotal_course() %>" disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="focusedinput" class="col-sm-2 control-label">Course Completed</label>
+								<div class="col-sm-8">
+									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getCourse_completed() %>" disabled>
+								</div>
+							</div>
+						</form>
+						<table class="table table-hover"> 
+						<thead> 
+								<tr> 
+									<th>#</th>
+									<th>Joining Date</th> 
+									<th>Course</th>
+									<th>Teacher</th> 
+									<th>Status</th>
+									<th>Completion Date</th> 
+									<th>Score</th>
+									<th>Certificate Given</th>
+								</tr> 
+							</thead> 
+							<tbody>
+<%
 	int count = 0;
-		for(StudentDetails student :list1)
-		{
-			List<StudentCourse> list11 = student.getStudentCourse();
-			for(StudentCourse studentCourse :list11)
-			{
-				if(studentCourse.getStatus() == 0 && studentCourse.getFees() <= studentCourse.getFeesPaid())
-				{
-					count++;
-%>
- 
-											<tr>
-												<th scope="row"><%=count %></th>
-												<td><%=student.getStudent_name() %></td> 
-												<td><%=student.getID() %></td>
-												<td><%=studentCourse.getCourse() %></td> 
-												<td><%=studentCourse.getFees() %></td>
-											</tr>
-<%	
-					break;
-				}
-			}
-		}
-	if(list1.isEmpty()) 
+	for(StudentCourse studentCourse :list11)
 	{
- %>
- 	<tr><td colspan="5" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
-										</tbody> 
-									</table>
-								</div>
-							</div>
-						</p> 
+		count++;
+%>	
+						
+							
+								<tr>
+									<th scope="row"><%=count %></th> 
+									<td><%=studentCourse.getJoining_date() %></td>
+									<td><%=studentCourse.getCourse() %></td>
+									<td><%=studentCourse.getTeacher() %></td> 
+									<td><%if(studentCourse.getStatus() == 0){ %><%="Current" %><%} else if(studentCourse.getStatus() == 1){ %><%="Completed" %><%} else{ %><%="Discontinued" %><%} %></td>
+									<td><%if(studentCourse.getStatus() != 0){ %><%=studentCourse.getCompletion_date() %><%} else{ %><%="-" %><%} %></td>
+									<td><%if(studentCourse.getStatus() == 1){ %><%=studentCourse.getScore() %><%} else{ %><%="-" %><%} %></td>
+									<td><%if(studentCourse.getStatus() == 1 && studentCourse.getCertificate() == 1){ %><%="Yes" %><%} else if(studentCourse.getStatus() == 1 && studentCourse.getCertificate() == 0){ %><%="No" %><%} else{ %><%="-" %><%} %></td>
+								</tr>
+<%	
+	}
+%>
+							</tbody> 							
+						</table>
+						<button type="reset" class="btn btn-default" onClick="window.location.replace('index')">Home</button>
+						<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudentDetails?id=<%=student.getID() %>')">Back</button>
 					</div>
-					
-					<div role="tabpanel" class="tab-pane fade" id="deleted" aria-labelledby="deleted-tab"> 
-						<p>
-							<div class="tables">
-								<div class="bs-example" data-example-id="hoverable-table">
-									<table class="table table-hover"> 
-										<thead> 
-											<tr> 
-												<th>#</th> 
-												<th>Student Name</th>
-												<th>Student ID</th> 
-												<th>Course</th> 
-												<th>Total Fees</th>
-												<th>Fees Paid</th>
-												<th>Fees Left</th>
-											</tr> 
-										</thead>
-										<tbody>
-<%
-	List<StudentDetails> list2 = (List<StudentDetails>) request.getAttribute("viewFeesPendingList");
-	count = 0;
-		for(StudentDetails student :list2)
-		{
-			List<StudentCourse> list22 = student.getStudentCourse();
-			for(StudentCourse studentCourse :list22)
-			{
-				if(studentCourse.getStatus() == 0 && studentCourse.getFees() > studentCourse.getFeesPaid())
-				{
-					count++;
-					double feesLeft = (studentCourse.getFees() - studentCourse.getFeesPaid());
-%>
- 
-											<tr>
-												<th scope="row"><%=count %></th>
-												<td><%=student.getStudent_name() %></td> 
-												<td><%=student.getID() %></td>
-												<td><%=studentCourse.getCourse() %></td> 
-												<td><%=studentCourse.getFees() %></td>
-												<td><%=studentCourse.getFeesPaid() %></td>
-												<td><%=feesLeft %>
-												<td><a href="PayFee?id=<%=student.getID() %>">Pay Fee</a></td>
-											</tr>
-<%	
-					break;
-				}
-			}
-		}
-	if(list2.isEmpty()) 
-	{
- %>
- 	<tr><td colspan="7" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
-										</tbody> 
-									</table>
-								</div>
-							</div>
-						</p> 
-					</div> 
-					
-					
-					<div role="tabpanel" class="tab-pane fade active in" id="pending" aria-labelledby="pending-tab"> 
-						<p>
-							<div class="tables">
-								<div class="bs-example " data-example-id="hoverable-table">
-									<input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search..." title="Type in a name">
-									<table class="table table-hover sortable" id="myTable">
-										<thead> 
-											<tr> 
-												<th>#</th> 
-												<th>Student Name</th>
-												<th>Student ID</th> 
-												<th>Course</th> 
-												<th>Total Fees</th>
-												<th>Fees Paid</th>
-												<th>Fees Left</th>
-											</tr> 
-										</thead>
-										<tbody>
-<%
-	List<StudentDetails> list3 = (List<StudentDetails>) request.getAttribute("viewFeesDueList");
-	count = 0;
-		for(StudentDetails student :list3)
-		{
-			List<StudentCourse> list33 = student.getStudentCourse();
-			for(StudentCourse studentCourse :list33)
-			{
-				if(studentCourse.getStatus() == 0 && studentCourse.getFees() > studentCourse.getFeesPaid())
-				{
-					count++;
-					double feesLeft = (studentCourse.getFees() - studentCourse.getFeesPaid());
-%>
- 
-											<tr>
-												<th scope="row"><%=count %></th> 
-												<td><%=student.getStudent_name() %></td> 
-												<td><%=student.getID() %></td>
-												<td><%=studentCourse.getCourse() %></td> 
-												<td><%=studentCourse.getFees() %></td>
-												<td><%=studentCourse.getFeesPaid() %></td>
-												<td><%=feesLeft %></td>
-												<td><a href="PayFee?id=<%=student.getID() %>">Pay Fee</a></td> 
-											</tr>
-<%	
-					break;
-				}
-			}
-		}
-	if(list3.isEmpty()) 
-	{
- %>
- 	<tr><td colspan="7" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
-										</tbody> 
-									</table>
-								</div>
-							</div>
-						 
-					</div> 
 				</div>
 			</div>
 		</div>

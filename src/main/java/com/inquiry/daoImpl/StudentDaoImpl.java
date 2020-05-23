@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.inquiry.dao.StudentDao;
-import com.inquiry.model.Fees;
 import com.inquiry.model.Inquiry;
-import com.inquiry.model.Student;
+import com.inquiry.model.StudentDetails;
 import com.inquiry.repository.StudentRepository;
 
 @Repository
@@ -18,27 +17,27 @@ public class StudentDaoImpl implements StudentDao {
 	StudentRepository studentRepository;
 
 	@Override
-	public Student addStudent(Student student) {
-		return studentRepository.save(student);
+	public StudentDetails addStudent(StudentDetails studentdtls) {
+		return studentRepository.save(studentdtls);
 	}
 
 	@Override
-	public List<Student> viewAllStudent() {
+	public List<StudentDetails> viewAllStudent() {
 		return studentRepository.findAll();
 	}
 
 	@Override
-	public List<Student> viewDeletedStudent(int del) {
-		return studentRepository.findByDel(1);
+	public List<StudentDetails> viewDeletedStudent(int del) {
+		return studentRepository.findByDel(del);
 	}
 
 	@Override
-	public List<Student> viewPendingStudent(int del) {
-		return studentRepository.findByDel(0);
+	public List<StudentDetails> viewPendingStudent(int del) {
+		return studentRepository.findByDel(del);
 	}
 
 	@Override
-	public Student findById(int id) {
+	public StudentDetails findById(int id) {
 		return studentRepository.findByID(id);
 	}
 
@@ -51,10 +50,10 @@ public class StudentDaoImpl implements StudentDao {
 	public void deleteInquiryById(int id) {
 		studentRepository.deleleInquiryByID(id);
 	}
-
+	
 	@Override
-	public List<Fees> findFeesHistoryById(int id) {
-		return studentRepository.findFeesHistoryById(id);
+	public List<StudentDetails> findAllPaidOrPendingFees() {
+		return studentRepository.findAll();
 	}
 
 }

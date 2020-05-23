@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inquiry.dao.StudentDao;
-import com.inquiry.model.Fees;
 import com.inquiry.model.Inquiry;
-import com.inquiry.model.Student;
+import com.inquiry.model.StudentDetails;
 import com.inquiry.service.StudentService;
 
 @Service
@@ -18,27 +17,27 @@ public class StudentServiceImpl implements StudentService {
 	StudentDao studentDao;
 
 	@Override
-	public Student addStudent(Student student) {
-		return studentDao.addStudent(student);
+	public StudentDetails addStudent(StudentDetails studentdtls) {
+		return studentDao.addStudent(studentdtls);
 	}
 
 	@Override
-	public List<Student> viewAllStudent() {
+	public List<StudentDetails> viewAllStudent() {
 		return studentDao.viewAllStudent();
 	}
 
 	@Override
-	public List<Student> viewDeletedStudent(int del) {
+	public List<StudentDetails> viewDeletedStudent(int del) {
 		return studentDao.viewDeletedStudent(del);
 	}
 
 	@Override
-	public List<Student> viewPendingStudent(int del) {
+	public List<StudentDetails> viewPendingStudent(int del) {
 		return studentDao.viewPendingStudent(del);
 	}
 
 	@Override
-	public Student findById(int id) {
+	public StudentDetails findById(int id) {
 		return studentDao.findById(id);
 	}
 
@@ -53,8 +52,8 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<Fees> findFeesHistoryById(int id) {
-		return studentDao.findFeesHistoryById(id);
+	public List<StudentDetails> findAllPaidOrPendingFees() {
+		return studentDao.findAllPaidOrPendingFees();
 	}
 
 }

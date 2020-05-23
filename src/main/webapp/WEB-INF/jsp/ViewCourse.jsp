@@ -1,11 +1,11 @@
-<%@page import="com.inquiry.model.Activity"%>
+<%@page import="com.inquiry.model.Course"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.List" %>
-<!DOCTYPE HTML>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>View Activity</title>
+<title>View Course</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Glance Design Dashboard Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -47,7 +47,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/sorttable.js"></script>
 <script src="js/searchTable.js"></script>
 
-<style>
+<style type="text/css">
+table.sortable th{
+	cursor: pointer;
+}
+	#myInput {
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
 #chartdiv {
   width: 100%;
   height: 295px;
@@ -80,52 +91,52 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 %>
 <body class="cbp-spmenu-push">
 	<div class="main-content">
-	<div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-		<!--left-fixed -navigation-->
-		<aside class="sidebar-left">
-      <nav class="navbar navbar-inverse">
-          <div class="navbar-header">
-            <h1><a class="navbar-brand" href="index.html"><span class="fa fa-area-chart"></span> Inquiry<span class="dashboard_text">Design dashboard</span></a></h1>
-          </div>
-          <div >
-            <ul class="sidebar-menu">
-              <li class="header">MAIN NAVIGATION</li>
-              <li class="treeview">
-                <a href="index">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                </a>
-              </li>
-			<li class="treeview">
-			  <a href="ViewCourse">
-			  <i class="fa fa-book"></i> <span>View Course</span>
-			  </a>
-			</li>
-              <li class="treeview">
-                <a href="InquiryForm">
-                <i class="fa fa-edit"></i> <span>Add Inquiry</span>
-                </a>
-              </li>
-              <li class="treeview">
-                <a href="ViewInquiry">
-                <i class="fa fa-table"></i> <span>View Inquiry</span>
-                </a>
-              </li>
-              <li class="treeview">
-                <a href="ViewStudent">
-                <i class="fa fa-users"></i> <span>View Student</span>
-                </a>
-              </li>
-	          <li class="treeview">
-	              <a href="ViewFees">
-	              <i class="fa fa-dollar"></i> <span>Fees</span>
-	              </a>
-	          </li>
-            </ul>
-          </div>
-          <!-- /.navbar-collapse -->
-      </nav>
-    </aside>
-	</div>
+		<div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+			<!--left-fixed -navigation-->
+			<aside class="sidebar-left">
+	      <nav class="navbar navbar-inverse">
+	          <div class="navbar-header">
+	            <h1><a class="navbar-brand" href="index.jsp"><span class="fa fa-area-chart"></span> Inquiry<span class="dashboard_text">Design dashboard</span></a></h1>
+	          </div>
+	          <div >
+	            <ul class="sidebar-menu">
+	              <li class="header">MAIN NAVIGATION</li>
+	              <li class="treeview">
+	                <a href="index">
+	                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+	                </a>
+	              </li>
+	              <li class="treeview">
+	                <a href="" style="background-color: black">
+	                <i class="fa fa-book"></i> <span>View Course</span>
+	                </a>
+	              </li>
+	              <li class="treeview">
+	                <a href="InquiryForm">
+	                <i class="fa fa-edit"></i> <span>Add Inquiry</span>
+	                </a>
+	              </li>
+	              <li class="treeview">
+	                <a href="ViewInquiry">
+	                <i class="fa fa-table"></i> <span>View Inquiry</span>
+	                </a>
+	              </li>
+	              <li class="treeview">
+	                <a href="ViewStudent">
+	                <i class="fa fa-users"></i> <span>View Student</span>
+	                </a>
+	              </li>
+	              <li class="treeview">
+	                <a href="ViewFees">
+	                <i class="fa fa-dollar"></i> <span>Fees</span>
+	                </a>
+	              </li>
+	            </ul>
+	          </div>
+	          <!-- /.navbar-collapse -->
+	      </nav>
+	    </aside>
+		</div>
 	</div>
 		<!--left-fixed -navigation-->
 		
@@ -180,49 +191,55 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<div id="page-wrapper">
 			<div class="main-page">
 				<div class="tables">
-					<h2 class="title1">View Activity</h2>
+					<h2 class="title1">Course</h2>
 					<div class="bs-example widget-shadow" data-example-id="hoverable-table"> 
-						<h4>Table</h4>
+						<h4>Add Course</h4>
+						<form class="form-horizontal" action="AddCourseController" method="post">
+							<div class="form-group mb-n">
+								<div class="row">
+									<div class="col-md-2 grid_box1">
+										<input type="number" class="form-control1" id="focusedinput" name="courseID" placeholder="Enter Course ID" required>
+									</div>
+									<div class="col-md-2 grid_box1">
+										<input type="text" class="form-control1" id="focusedinput" name="courseName" placeholder="Enter Course Name" required>
+									</div>
+									<button type="submit" class="btn btn-default col-md-1">Add</button>
+								</div>
+							</div>	
+						</form>
+					</div>
+					<div class="bs-example widget-shadow" data-example-id="hoverable-table"> 
+						<h4>Course List</h4>
 						<input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search..." title="Type in a name">
-						<table class="table table-hover sortable" id="myTable"> 
+						<table class="table table-hover sortable" id="myTable">
 							<thead> 
 								<tr> 
 									<th>#</th> 
-									<th>Admin</th>
-									<th>Date & Time</th> 
-									<th>Type</th> 
-									<th>Description</th> 
+									<th>Course ID</th>
+									<th>Course Name</th>
 								</tr> 
 							</thead> 
 							<tbody>
 <%
-	List<Activity> list1 = (List<Activity>) request.getAttribute("activityList");
+	List<Course> list1 = (List<Course>) request.getAttribute("viewCourseList");
 	int count = 0;
-		for(Activity activity :list1)
+	if(list1 != null)
+	{
+		for(Course course :list1)
 		{
-		count++;
+			count++;
 %>
  
 								<tr>
 									<th scope="row"><%=count %></th> 
-									<td><%=activity.getAdminName() %></td>
-									<td><%=activity.getDate_time() %></td> 
-									<td><%=activity.getType() %></td> 
-									<td><%=activity.getDescription() %></td>
-									</tr>
-<%	
- 	} 
-	if(list1.isEmpty()) 
-	{
- %>
- 	<tr><td colspan="5" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
+									<td><%=course.getCourse_id() %></td>
+									<td><%=course.getCourse_name() %></td> 
+									<td><a href="EditCourse?id=<%=course.getID() %>">Edit</a></td> 
+									<td><a href="CourseDeleteController?id=<%=course.getID() %>">Delete</a></td>
+								</tr>
+<%}} %>
 							</tbody> 
 						</table>
-						<button type="reset" class="btn btn-default" onClick="window.location.replace('index')">Home</button>
-						<button type="reset" class="btn btn-default" onClick="window.location.replace('Setting')">Back</button>
 					</div>
 				</div>
 			</div>

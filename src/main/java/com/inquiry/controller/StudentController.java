@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,7 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.inquiry.model.Activity;
 import com.inquiry.model.Fees;
 import com.inquiry.model.Inquiry;
-import com.inquiry.model.Student;
+import com.inquiry.model.StudentCourse;
+import com.inquiry.model.StudentDetails;
 import com.inquiry.repository.ActivityRepository;
 import com.inquiry.service.StudentService;
 
@@ -39,6 +41,7 @@ public class StudentController {
 		Inquiry inquiry = studentService.findInquiryById(id);
 		
 		request.setAttribute("inquiry", inquiry);
+		request.setAttribute("flag", "0");
 		
 		return new ModelAndView("StudentForm");
 	}
@@ -55,26 +58,33 @@ public class StudentController {
 		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
 		Date joiningDate = Date.valueOf(joining_date);
 		double fees = Double.parseDouble(request.getParameter("fees"));
-
-		Student student= new Student();
 		
-		student.setID(id);
-		student.setStudent_name(request.getParameter("studentName"));
-		student.setMob_no(request.getParameter("mobileNumber"));
-		student.setEmail(request.getParameter("email"));
-		student.setDob(birthDate);
-		student.setAddress(request.getParameter("address"));
-		student.setQualification(request.getParameter("qualification"));
-		student.setCourse(request.getParameter("course"));
-		student.setBatch_time(request.getParameter("batchTime"));
-		student.setJoining_date(joiningDate);
-		student.setFees(fees);
-		student.setTeacher(request.getParameter("teacher_appointed"));
-		student.setFeesPaid((double) 0);
+		StudentCourse studentCourse = new StudentCourse();
+		studentCourse.setCourse(request.getParameter("course"));
+		studentCourse.setBatch_time(request.getParameter("batchTime"));
+		studentCourse.setJoining_date(joiningDate);
+		studentCourse.setFees(fees);
+		studentCourse.setTeacher(request.getParameter("teacher_appointed"));
+		studentCourse.setFeesPaid((double) 0);
+		
+		List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
+		studentCourseList.add(studentCourse);
+		
+		StudentDetails studentDtls= new StudentDetails();
+		
+		studentDtls.setID(id);
+		studentDtls.setStudent_name(request.getParameter("studentName"));
+		studentDtls.setMob_no(request.getParameter("mobileNumber"));
+		studentDtls.setEmail(request.getParameter("email"));
+		studentDtls.setDob(birthDate);
+		studentDtls.setAddress(request.getParameter("address"));
+		studentDtls.setQualification(request.getParameter("qualification"));
+		studentDtls.setTotal_course(1);
+		studentDtls.setStudentCourse(studentCourseList);
 		
 		studentService.deleteInquiryById(id);
 		
-		studentService.addStudent(student);
+		studentService.addStudent(studentDtls);
 		
 		Activity activity = new Activity();
 		java.util.Date dt1 = Calendar.getInstance().getTime(); 
@@ -83,7 +93,7 @@ public class StudentController {
 		activity.setAdminName((String)session.getAttribute("uname"));
 		activity.setDate_time(date1);
 		activity.setType("New Student");
-		activity.setDescription("New Student " +student.getStudent_name());
+		activity.setDescription("New Student " +studentDtls.getStudent_name());
 		activityRepository.save(activity);
 		
 		int count1 = (int) session.getAttribute("count1");
@@ -104,9 +114,9 @@ public class StudentController {
 	
 	@RequestMapping("ViewStudent")
 	public ModelAndView viewInquiry(HttpServletRequest request, HttpServletResponse response) {
-		List<Student> viewAllList = studentService.viewAllStudent();
-		List<Student> viewDeletedList = studentService.viewDeletedStudent(1);
-		List<Student> viewPendingList = studentService.viewPendingStudent(0);
+		List<StudentDetails> viewAllList = studentService.viewAllStudent();
+		List<StudentDetails> viewDeletedList = studentService.viewDeletedStudent(1);
+		List<StudentDetails> viewPendingList = studentService.viewPendingStudent(0);
 		
 		request.setAttribute("viewAllList", viewAllList);
 		request.setAttribute("viewDeletedList", viewDeletedList);
@@ -118,7 +128,7 @@ public class StudentController {
 	public ModelAndView editForm(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentService.findById(id);
+		StudentDetails student = studentService.findById(id);
 		
 		request.setAttribute("student", student);
 		
@@ -132,24 +142,31 @@ public class StudentController {
 		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
 		Date joiningDate = Date.valueOf(request.getParameter("joiningDate"));
 		double fees = Double.parseDouble(request.getParameter("fees"));
-
-		Student student= new Student();
 		
-		student.setID(id);
-		student.setStudent_name(request.getParameter("studentName"));
-		student.setMob_no(request.getParameter("mobileNumber"));
-		student.setEmail(request.getParameter("email"));
-		student.setDob(birthDate);
-		student.setAddress(request.getParameter("address"));
-		student.setQualification(request.getParameter("qualification"));
-		student.setCourse(request.getParameter("course"));
-		student.setBatch_time(request.getParameter("batchTime"));
-		student.setJoining_date(joiningDate);
-		student.setFees(fees);
-		student.setTeacher(request.getParameter("teacher_appointed"));
-		student.setFeesPaid((double) 0);
+		StudentDetails studentDtls = studentService.findById(id);
+				
+		List<StudentCourse> studentCourseList = studentDtls.getStudentCourse();
+		for(StudentCourse studentCourse : studentCourseList)
+		{
+			if(studentCourse.getStatus() == 0)
+			{
+				studentCourse.setCourse(request.getParameter("course"));
+				studentCourse.setBatch_time(request.getParameter("batchTime"));
+				studentCourse.setJoining_date(joiningDate);
+				studentCourse.setFees(fees);
+				studentCourse.setTeacher(request.getParameter("teacher_appointed"));
+			}
+		}
 		
-		studentService.addStudent(student);
+		studentDtls.setStudent_name(request.getParameter("studentName"));
+		studentDtls.setMob_no(request.getParameter("mobileNumber"));
+		studentDtls.setEmail(request.getParameter("email"));
+		studentDtls.setDob(birthDate);
+		studentDtls.setAddress(request.getParameter("address"));
+		studentDtls.setQualification(request.getParameter("qualification"));
+		studentDtls.setStudentCourse(studentCourseList);
+		
+		studentService.addStudent(studentDtls);
 		
 		HttpSession session=request.getSession(false);
 		
@@ -160,7 +177,7 @@ public class StudentController {
 		activity.setAdminName((String)session.getAttribute("uname"));
 		activity.setDate_time(date1);
 		activity.setType("Edit Student");
-		activity.setDescription("Edit Student " +student.getStudent_name());
+		activity.setDescription("Edit Student " +studentDtls.getStudent_name());
 		activityRepository.save(activity);
 		
 		try {
@@ -174,10 +191,10 @@ public class StudentController {
 	public void deleteInquiry(HttpServletRequest request, HttpServletResponse response) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentService.findById(id);
-		student.setDel(1);
+		StudentDetails studentDtls = studentService.findById(id);
+		studentDtls.setDel(1);
 		
-		studentService.addStudent(student);
+		studentService.addStudent(studentDtls);
 		
 		HttpSession session=request.getSession(false);
 		int count3 = (int) session.getAttribute("count3");
@@ -190,7 +207,7 @@ public class StudentController {
 		activity.setAdminName((String)session.getAttribute("uname"));
 		activity.setDate_time(date1);
 		activity.setType("Delete Student");
-		activity.setDescription("Delete Student " +student.getStudent_name());
+		activity.setDescription("Delete Student " +studentDtls.getStudent_name());
 		activityRepository.save(activity);
 		
 		try {
@@ -204,10 +221,10 @@ public class StudentController {
 	public void RetrieveInquiryController(HttpServletRequest request, HttpServletResponse response) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentService.findById(id);
-		student.setDel(0);
+		StudentDetails studentDtls = studentService.findById(id);
+		studentDtls.setDel(0);
 		
-		studentService.addStudent(student);
+		studentService.addStudent(studentDtls);
 		
 		HttpSession session=request.getSession(false);
 		int count3 = (int) session.getAttribute("count3");
@@ -220,7 +237,7 @@ public class StudentController {
 		activity.setAdminName((String)session.getAttribute("uname"));
 		activity.setDate_time(date1);
 		activity.setType("Retrieve Student");
-		activity.setDescription("Retrieve Student " +student.getStudent_name());
+		activity.setDescription("Retrieve Student " +studentDtls.getStudent_name());
 		activityRepository.save(activity);
 		
 		try {
@@ -234,9 +251,9 @@ public class StudentController {
 	public ModelAndView viewStudentDetails(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentService.findById(id);
+		StudentDetails studentDtls = studentService.findById(id);
 		
-		request.setAttribute("student", student);
+		request.setAttribute("student", studentDtls);
 		
 		return new ModelAndView("ViewStudentDetails");
 	}
@@ -245,14 +262,207 @@ public class StudentController {
 	public ModelAndView viewPaymentHistory(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		Student student = studentService.findById(id);
+		StudentDetails studentDtls = studentService.findById(id);
 		
-		request.setAttribute("student", student);
+		request.setAttribute("student", studentDtls);
 		
-		List<Fees> feesHistoryList = studentService.findFeesHistoryById(id);
+		StudentDetails feesHistoryList = studentService.findById(id);
 		request.setAttribute("feesHistoryList", feesHistoryList);
 		
 		return new ModelAndView("ViewPaymentHistory");
+	}
+	
+	@RequestMapping("ViewFees")
+	public ModelAndView viewFees(HttpServletRequest request, HttpServletResponse response) {
+		List<StudentDetails> viewFeesPaidList = studentService.findAllPaidOrPendingFees();
+		List<StudentDetails> viewFeesPendingList = studentService.findAllPaidOrPendingFees();
+		List<StudentDetails> viewFeesDueList = studentService.findAllPaidOrPendingFees();
+		
+		request.setAttribute("viewFeesPaidList", viewFeesPaidList);
+		request.setAttribute("viewFeesPendingList", viewFeesPendingList);
+		request.setAttribute("viewFeesDueList", viewFeesDueList);
+		return new ModelAndView("ViewFees");
+	}
+	
+	@RequestMapping("PayFee")
+	public ModelAndView payFee(HttpServletRequest request) {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		StudentDetails student = studentService.findById(id);
+		
+		request.setAttribute("student", student);
+		
+		return new ModelAndView("PayFee");
+	}
+	
+	@PostMapping("PayFeeController")
+	public void payFeeController(HttpServletRequest request, HttpServletResponse response) {
+		
+		java.util.Date d = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+		String dt = dateFormat.format(d);
+		Date date =  Date.valueOf(dt);
+		int id = Integer.parseInt(request.getParameter("id"));
+		double amount = Double.parseDouble(request.getParameter("amount"));
+		
+		Fees fees = new Fees();
+		
+		fees.setDate(date);
+		fees.setStudent_name(request.getParameter("studentName"));
+		fees.setMethod(request.getParameter("method"));
+		fees.setFees_amount(amount);
+		
+		StudentDetails student = studentService.findById(id);
+		
+		List<Fees> studentFeeList = student.getFeesTable();
+		studentFeeList.add(fees);
+		
+		List<StudentCourse> list1 = student.getStudentCourse();
+		for(StudentCourse studentCourse :list1)
+		{
+			if(studentCourse.getStatus() == 0)
+			{
+				studentCourse.setFeesPaid(studentCourse.getFeesPaid() + amount);
+			}
+		}	
+		student.setFeesTable(studentFeeList);
+		studentService.addStudent(student);
+		
+		HttpSession session = request.getSession();
+		//int count4 = studentService.countPendingFees();
+		//session.setAttribute("count4", count4);
+		
+		Activity activity = new Activity();
+		java.util.Date dt1 = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+		String date1 = dateFormat1.format(dt1);
+		activity.setAdminName((String)session.getAttribute("uname"));
+		activity.setDate_time(date1);
+		activity.setType("Pay Fee");
+		activity.setDescription("Pay fee of " +fees.getStudent_name() +" Amount:" +fees.getFees_amount());
+		activityRepository.save(activity);
+		
+		try {
+			response.sendRedirect("ViewFees");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("UpdateStudentStatus")
+	public ModelAndView updateStudentStatus(HttpServletRequest request)
+	{
+		
+		StudentDetails student = studentService.findById(Integer.parseInt(request.getParameter("id")));
+		request.setAttribute("student", student);
+		return new ModelAndView("UpdateStudentStatus");
+	}
+	
+	@PostMapping("UpdateStudentStatusController")
+	public void updateStudentStatusController(HttpServletRequest request, HttpServletResponse response)
+	{
+		java.util.Date dt = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+		String completion_date = dateFormat.format(dt);
+		Date completionDate = Date.valueOf(completion_date);
+		
+		int status = Integer.parseInt(request.getParameter("status"));
+		
+		StudentDetails studentDtls = studentService.findById(Integer.parseInt(request.getParameter("id")));
+		
+		List<StudentCourse> studentCourseList = studentDtls.getStudentCourse();
+		for(StudentCourse studentCourse : studentCourseList)
+		{
+			if(studentCourse.getStatus() == 0)
+			{
+				studentCourse.setCompletion_date(completionDate);
+				studentDtls.setDel(1);
+				studentCourse.setStatus(status);
+				if(status == 1)
+				{
+					studentCourse.setScore(Integer.parseInt(request.getParameter("score")));
+					studentCourse.setCertificate(Integer.parseInt(request.getParameter("certificate")));
+					studentDtls.setCourse_completed(studentDtls.getCourse_completed() + 1);
+					studentDtls.setDel(1);
+				}
+			}
+		}
+		
+		studentDtls.setStudentCourse(studentCourseList);
+		
+		studentService.addStudent(studentDtls);
+		
+		try {
+			response.sendRedirect("ViewStudent");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("StudentNewCourse")
+	public ModelAndView studentNewCourse(HttpServletRequest request) {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		StudentDetails student = studentService.findById(id);
+		
+		request.setAttribute("student", student);
+		
+		return new ModelAndView("StudentNewCourse");
+	}
+	
+	@PostMapping("StudentNewCourseController")
+	public void studentNewCourseController(HttpServletRequest request, HttpServletResponse response)
+	{
+		java.util.Date dt = Calendar.getInstance().getTime(); 
+		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+		String joining_date = dateFormat.format(dt);
+		int id = Integer.parseInt(request.getParameter("id"));
+		Date joiningDate = Date.valueOf(joining_date);
+		double fees = Double.parseDouble(request.getParameter("fees")); 
+		
+		StudentDetails studentDtls = studentService.findById(id);
+		
+		StudentCourse studentCourse = new StudentCourse();
+		studentCourse.setCourse(request.getParameter("course"));
+		studentCourse.setBatch_time(request.getParameter("batchTime"));
+		studentCourse.setJoining_date(joiningDate);
+		studentCourse.setFees(fees);
+		studentCourse.setTeacher(request.getParameter("teacher_appointed"));
+		studentCourse.setFeesPaid((double) 0);
+		
+		List<StudentCourse> studentCourseList = studentDtls.getStudentCourse();
+		studentCourseList.add(studentCourse);
+		
+		studentDtls.setStudent_name(request.getParameter("studentName"));
+		studentDtls.setMob_no(request.getParameter("mobileNumber"));
+		studentDtls.setEmail(request.getParameter("email"));
+		studentDtls.setAddress(request.getParameter("address"));
+		studentDtls.setQualification(request.getParameter("qualification"));
+		studentDtls.setDel(0);
+		studentDtls.setTotal_course(studentDtls.getTotal_course() + 1);
+		studentDtls.setStudentCourse(studentCourseList);
+		
+		studentService.addStudent(studentDtls);
+		
+		try {
+			response.sendRedirect("ViewStudent");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("ViewCourseHistory")
+	public ModelAndView viewCourseHistory(HttpServletRequest request) {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		StudentDetails studentDtls = studentService.findById(id);
+		
+		request.setAttribute("student", studentDtls);
+		
+		StudentDetails feesCourseList = studentService.findById(id);
+		request.setAttribute("feesCourseList", feesCourseList);
+		
+		return new ModelAndView("ViewCourseHistory");
 	}
 
 }

@@ -1,13 +1,11 @@
-<%@page import="com.inquiry.model.StudentCourse"%>
-<%@page import="java.util.List"%>
 <%@page import="com.inquiry.model.StudentDetails"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.inquiry.model.Student, java.util.Optional"%>
+    <%@page import="com.inquiry.model.Inquiry, java.util.Optional"%>
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Student Details</title>
+<title>Student New Course</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords"
@@ -98,7 +96,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<ul class="sidebar-menu">
 							<li class="header">MAIN NAVIGATION</li>
 							<li class="treeview">
-								<a href="index.jsp"> 
+								<a href="index"> 
 									<i class="fa fa-dashboard"></i> 
 									<span>Dashboard</span>
 								</a>
@@ -122,7 +120,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							</li>
 							<li class="treeview">
 				                <a href="ViewStudent" style="background-color: black">
-				                <i class="fa fa-users"></i> <span>View Student</span>
+				                	<i class="fa fa-users"></i> 
+				                	<span>View Student</span>
 				                </a>
 				            </li>
 				            <li class="treeview">
@@ -187,126 +186,96 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<!-- //header-ends -->
 
 	<!-- main content start-->
+	
 <%
 	StudentDetails student = (StudentDetails)request.getAttribute("student");
-	List<StudentCourse> list11 = student.getStudentCourse();
 %>
+	
 	<div id="page-wrapper">
 		<div class="main-page">
 			<div class="row">
-				<h3 class="title1">Student Details :</h3>
+				<h3 class="title1">Student Form :</h3>
 				<div class="form-three widget-shadow">
-					<form class="form-horizontal" action="">
-					<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">ID</label>
+					<form class="form-horizontal" action="StudentNewCourseController" method="post">
+					<input type="hidden" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>">
+						<div class="form-group">
+							<label for="focusedinput" class="col-sm-2 control-label">Student ID</label>
 							<div class="col-sm-8">
 								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Name</label>
+							<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getStudent_name() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" name="studentName" placeholder="Enter Student Name" value="<%=student.getStudent_name() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Mobile Number</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=student.getMob_no() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" name="mobileNumber" placeholder="Enter Mobile Number" value="<%=student.getMob_no() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Email</label>
+							<label for="focusedinput" class="col-sm-2 control-label">Email Id</label>
 							<div class="col-sm-8">
-								<input type="email" class="form-control1" id="focusedinput" value="<%=student.getEmail() %>" disabled>
+								<input type="email" class="form-control1" id="focusedinput" name="email" placeholder="Enter Email Id" value="<%=student.getEmail() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Date of Birth</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" value="<%=student.getDob() %>" disabled>
+								<input type="date" class="form-control1" id="focusedinput" name="birthDate" value="<%=student.getDob() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Address</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getAddress() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" name="address" placeholder="Enter Address" value="<%=student.getAddress() %>" required>
 							</div>
 						</div>
-<%
-	if(student.getDel() == 1)
-	{
-%>
-						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Total Course</label>
-							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=student.getTotal_course() %>" disabled>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Course Completed</label>
-							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=student.getCourse_completed() %>" disabled>
-							</div>
-						</div>
-<%
-	}
-	for(StudentCourse studentCourse :list11)
-	{
-		if(studentCourse.getStatus() == 0)
-		{
-%>	
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Qualification</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=student.getQualification() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" name="qualification" placeholder="Enter Qualification" value="<%=student.getQualification() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Course</label>
+							<label for="selector1" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=studentCourse.getCourse() %>" disabled>
+								<select name="course" id="selector1" class="form-control1" >
+									<option value="Java">Java</option>
+									<option value="Python">Python</option>
+									<option value="C++">C++</option>
+									<option value=".Net">.Net</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Batch Time</label>
+							<label for="selector1" class="col-sm-2 control-label">Preferred Batch Time</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=studentCourse.getBatch_time() %>" disabled>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Joining Date</label>
-							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" value="<%=studentCourse.getJoining_date() %>" disabled>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Teacher Appointed</label>
-							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=studentCourse.getTeacher() %>" disabled>
+								<select name="batchTime" id="selector1" class="form-control1">
+									<option value="Morning">Morning</option>
+									<option value="Afternoon">Afternoon</option>
+									<option value="Evening">Evening</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Fees</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=studentCourse.getFees() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" name="fees" placeholder="Enter Fees" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Fees Paid</label>
+							<label for="focusedinput" class="col-sm-2 control-label">Teacher Appointed</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" value="<%=studentCourse.getFeesPaid() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" name="teacher_appointed" placeholder="Enter Teacher Appointed" required>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">
-							<button type="reset" class="btn btn-default" onClick="window.location.replace('EditStudent?id=<%=student.getID() %>')">Edit</button>
-							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewPaymentHistory?id=<%=student.getID() %>')">View Payment History</button>
-<%	
-		}
-	}
-%>
-							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewCourseHistory?id=<%=student.getID() %>')">View Course History</button>
-							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudent')">Back</button>
+							<button type="submit" class="btn btn-default">Submit</button>
+							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewInquiry')">Cancel</button>
 						</div>
 					</form>
 				</div>

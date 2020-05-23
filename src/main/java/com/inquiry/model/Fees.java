@@ -2,7 +2,6 @@ package com.inquiry.model;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,9 +15,6 @@ public class Fees {
 	private int ID;
 	
 	private Date date;
-	
-	@Column(name = "student_id")
-	private int studentId;
 	
 	private String student_name;
 	
@@ -40,14 +36,6 @@ public class Fees {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public int getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
 	}
 
 	public String getStudent_name() {

@@ -19,10 +19,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select count(*) from Inquiry i where i.del=0")
 	public int countPendingInquiry();
 	
-	@Query("select count(*) from Student s where s.del=0")
+	@Query("select count(*) from StudentDetails s where s.del=0")
 	public int countStudent();
 	
-	@Query("select count(*) from Student s where s.fees!=s.feesPaid")
+	@Query("select count(*) from StudentCourse s where s.fees!=s.feesPaid and s.status=0")
 	public int countPendingFees();
 
 }

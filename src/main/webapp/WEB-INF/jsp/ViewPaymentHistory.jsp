@@ -1,3 +1,5 @@
+<%@page import="com.inquiry.model.StudentCourse"%>
+<%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Fees"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -92,6 +94,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
               </li>
+			<li class="treeview">
+			  <a href="ViewCourse">
+			  <i class="fa fa-book"></i> <span>View Course</span>
+			  </a>
+			</li>
               <li class="treeview">
                 <a href="InquiryForm">
                 <i class="fa fa-edit"></i> <span>Add Inquiry</span>
@@ -172,8 +179,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<div id="page-wrapper">
 			<div class="main-page">
 <%
-	Student student = (Student)request.getAttribute("student");
-	
+	StudentDetails student = (StudentDetails)request.getAttribute("student");
+	List<StudentCourse> list11 = student.getStudentCourse();
+	for(StudentCourse studentCourse :list11)
+	{
+		if(studentCourse.getStatus() == 0)
+		{
 %>	
 				<div class="tables">
 					<h2 class="title1">Payment History</h2>
@@ -194,7 +205,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<div class="form-group">
 								<label for="focusedinput" class="col-sm-2 control-label">Fees</label>
 								<div class="col-sm-8">
-									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getFees() %>" disabled>
+									<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=studentCourse.getFees() %>" disabled>
 								</div>
 							</div>
 						</form>
@@ -210,15 +221,14 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							</thead> 
 							<tbody>
 <%
-	List<Fees> list1 = (List<Fees>) request.getAttribute("feesHistoryList");
+	List<Fees> list22 = student.getFeesTable();
 	int count = 0;
 	double total = 0;
-		for(Fees fees :list1)
-		{
-			count++;
-			total = total + fees.getFees_amount();
+	for(Fees fees :list22)
+	{
+		count++;
+		total = total + fees.getFees_amount();
 %>
- 
 								<tr>
 									<th scope="row"><%=count %></th> 
 									<td><%=fees.getID() %></td>
@@ -228,7 +238,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								</tr>
 <%	
  	} 
-	if(list1.isEmpty()) 
+	if(list22.isEmpty()) 
 	{
  %>
  	<tr><td colspan="6" style="text-align: center;">No Records Found</td></tr>
@@ -246,7 +256,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 									<td></td>
 									<td></td>
 									<th>Fees Left :</th>
-									<td><%=(student.getFees() - total) %></td>
+									<td><%=(studentCourse.getFees() - total) %></td>
 									<td></td>
 								</tr>
 							</tbody> 
@@ -255,6 +265,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudentDetails?id=<%=student.getID() %>')">Back</button>
 					</div>
 				</div>
+<%	
+		}
+	}
+%>
 			</div>
 		</div>
 		

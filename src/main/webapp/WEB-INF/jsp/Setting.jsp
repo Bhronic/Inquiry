@@ -43,6 +43,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
+
+<script src="js/sorttable.js"></script>
+<script src="js/searchTable.js"></script>
+
 <style>
 #chartdiv {
   width: 100%;
@@ -91,6 +95,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
               </li>
+			<li class="treeview">
+			  <a href="ViewCourse">
+			  <i class="fa fa-book"></i> <span>View Course</span>
+			  </a>
+			</li>
+              
               <li class="treeview">
                 <a href="InquiryForm">
                 <i class="fa fa-edit"></i> <span>Add Inquiry</span>
@@ -174,7 +184,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					<h2 class="title1">Settings</h2>
 					<div class="bs-example widget-shadow" data-example-id="hoverable-table"> 
 						<h4>Admins</h4>
-						<table class="table table-hover"> 
+						<input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search..." title="Type in a name">
+						<table class="table table-hover sortable" id="myTable">
 							<thead> 
 								<tr> 
 									<th>#</th> 

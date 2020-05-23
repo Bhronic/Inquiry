@@ -1,3 +1,7 @@
+<%@page import="com.inquiry.model.Course"%>
+<%@page import="java.util.List"%>
+<%@page import="com.inquiry.serviceImpl.CourseServiceImpl"%>
+<%@page import="com.inquiry.service.CourseService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE HTML>
@@ -93,9 +97,17 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					<div>
 						<ul class="sidebar-menu">
 							<li class="header">MAIN NAVIGATION</li>
-							<li class="treeview"><a href="index"> <i
-									class="fa fa-dashboard"></i> <span>Dashboard</span>
-							</a></li>
+							<li class="treeview">
+								<a href="index"> 
+									<i class="fa fa-dashboard"></i> 
+									<span>Dashboard</span>
+								</a>
+							</li>
+							<li class="treeview">
+							  <a href="ViewCourse">
+							  <i class="fa fa-book"></i> <span>View Course</span>
+							  </a>
+							</li>
 							<li class="treeview"><a href=""
 								style="background-color: black"> <i class="fa fa-edit"></i>
 									<span>Add Inquiry</span>
@@ -212,6 +224,27 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								<input type="text" class="form-control1" id="focusedinput" name="qualification" placeholder="Enter Qualification" required>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label for="selector1" class="col-sm-2 control-label">Course</label>
+							<div class="col-sm-8">
+								<select name="course" id="selector1" class="form-control1">
+					<%
+								CourseService courseService = new CourseServiceImpl();
+								try{
+									List<Course> courseList = courseService.viewAllCourse();
+									for(Course course : courseList)
+									{	
+					%>
+									<option value="<%=course.getCourse_name() %>"><%=course.getCourse_name() %></option>
+					<%
+									}
+								}catch(Exception e){e.printStackTrace();}
+					%>
+								</select>
+							</div>
+						</div>
+						
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">

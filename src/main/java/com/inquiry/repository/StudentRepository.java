@@ -9,17 +9,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.inquiry.model.Fees;
 import com.inquiry.model.Inquiry;
-import com.inquiry.model.Student;
+import com.inquiry.model.StudentDetails;
 
 @Repository
 @Transactional
-public interface StudentRepository extends JpaRepository<Student, Integer> {
+public interface StudentRepository extends JpaRepository<StudentDetails, Integer> {
 	
-	public List<Student> findByDel(int del);
+	public List<StudentDetails> findByDel(int del);
 	
-	public Student findByID(int id);
+	public StudentDetails findByID(int id);
 	
 	@Query("SELECT i from Inquiry i where i.ID=?1")
 	public Inquiry findInquiryByID(int id);
@@ -27,8 +26,5 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 	@Modifying
 	@Query("DELETE FROM Inquiry i WHERE i.ID=:id")
 	public void deleleInquiryByID(@Param("id") int id);
-	
-	@Query("SELECT f FROM Fees f WHERE f.studentId=?1")
-	public List<Fees> findFeesHistoryById(int id);
 
 }

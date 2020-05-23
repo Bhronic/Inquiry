@@ -101,6 +101,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								</a>
 							</li>
 							<li class="treeview">
+							  <a href="ViewCourse">
+							  <i class="fa fa-book"></i> <span>View Course</span>
+							  </a>
+							</li>
+							<li class="treeview">
 								<a href="InquiryForm"> 
 									<i class="fa fa-edit"></i>
 									<span>Add Inquiry</span>
@@ -188,7 +193,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<div id="page-wrapper">
 		<div class="main-page">
 			<div class="row">
-				<h3 class="title1">Inquiry Form :</h3>
+				<h3 class="title1">Student Form :</h3>
 				<div class="form-three widget-shadow">
 					<form class="form-horizontal" action="StudentFormController" method="post">
 					<input type="hidden" class="form-control1" id="focusedinput" name="id" value="<%=inquiry.getID() %>">

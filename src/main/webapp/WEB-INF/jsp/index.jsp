@@ -92,6 +92,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	                </a>
 	              </li>
 	              <li class="treeview">
+	                <a href="ViewCourse">
+	                <i class="fa fa-book"></i> <span>View Course</span>
+	                </a>
+	              </li>
+	              <li class="treeview">
 	                <a href="InquiryForm">
 	                <i class="fa fa-edit"></i> <span>Add Inquiry</span>
 	                </a>

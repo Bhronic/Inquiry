@@ -43,6 +43,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
+
+<script src="js/sorttable.js"></script>
+<script src="js/searchTable.js"></script>
+
 <style>
 #chartdiv {
   width: 100%;
@@ -91,6 +95,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
               </li>
+			<li class="treeview">
+			  <a href="ViewCourse">
+			  <i class="fa fa-book"></i> <span>View Course</span>
+			  </a>
+			</li>
               <li class="treeview">
                 <a href="InquiryForm">
                 <i class="fa fa-edit"></i> <span>Add Inquiry</span>
@@ -283,7 +292,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<p>
 							<div class="tables">
 								<div class="bs-example " data-example-id="hoverable-table">
-									<table class="table table-hover"> 
+									<input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search..." title="Type in a name">
+									<table class="table table-hover sortable" id="myTable">
 										<thead> 
 											<tr> 
 												<th>#</th> 
@@ -311,7 +321,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 												<td><%=inquiry.getMob_no() %></td> 
 												<td><%=inquiry.getCourse() %></td>
 												<td><%=inquiry.getInquiry_date() %></td>
-												<td><a href="EditForm?id=<%=inquiry.getID() %>">Edit</a> / <a href="StudentForm?id=<%=inquiry.getID() %>">To Student</a> / <a href="InquiryDeleteController?id=<%=inquiry.getID() %>">Delete</a></td> 
+												<td><a href="EditForm?id=<%=inquiry.getID() %>">Edit</a> / <a href="StudentForm?id=<%=inquiry.getID() %>">To Student</a> / <a id='deleteConfirm' onclick='deleteConfirm()' href="InquiryDeleteController?id=<%=inquiry.getID() %>">Delete</a></td> 
 											</tr>
 <%	
  	} 
@@ -372,6 +382,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.js"> </script>
 	<!-- //Bootstrap Core JavaScript -->
+	
+	<!--Confirm Delete javaScript-->
+	<script>
+		function deleteConfirm() {
+			var r = confirm("Press 'Ok' if you want to Delete");
+			if (r == false) {
+				document.getElementById("deleteConfirm").href="#";
+			  } else{
+				  document.getElementById("deleteConfirm").href;
+			  }
+		}
+	</script>
 	
 </body>
 </html>

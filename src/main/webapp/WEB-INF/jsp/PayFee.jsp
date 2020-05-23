@@ -1,3 +1,6 @@
+<%@page import="com.inquiry.model.StudentCourse"%>
+<%@page import="java.util.List"%>
+<%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Student, java.util.Optional"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -101,6 +104,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								</a>
 							</li>
 							<li class="treeview">
+							  <a href="ViewCourse">
+							  <i class="fa fa-book"></i> <span>View Course</span>
+							  </a>
+							</li>
+							
+							<li class="treeview">
 								<a href="InquiryForm"> 
 									<i class="fa fa-edit"></i>
 									<span>Add Inquiry</span>
@@ -182,9 +191,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- main content start-->
 	
 <%
-Student student = (Student)request.getAttribute("student");
-%>
-	
+StudentDetails student = (StudentDetails)request.getAttribute("student");
+List<StudentCourse> list11 = student.getStudentCourse();
+for(StudentCourse studentCourse :list11)
+{
+	if(studentCourse.getStatus() == 0)
+	{
+%>	
 	<div id="page-wrapper">
 		<div class="main-page">
 			<div class="row">
@@ -206,25 +219,25 @@ Student student = (Student)request.getAttribute("student");
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="course" value="<%=student.getCourse() %>" disabled>
+								<input type="text" class="form-control1" id="focusedinput" name="course" value="<%=studentCourse.getCourse() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Total Fees</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="totalFees" value="<%=student.getFees() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" name="totalFees" value="<%=studentCourse.getFees() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Fees Paid</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="feesPaid" value="<%=student.getFeesPaid() %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" name="feesPaid" value="<%=studentCourse.getFeesPaid() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Fees Left</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" value="<%=(student.getFees()-student.getFeesPaid()) %>" disabled>
+								<input type="number" class="form-control1" id="focusedinput" value="<%=(studentCourse.getFees()-studentCourse.getFeesPaid()) %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
@@ -241,7 +254,7 @@ Student student = (Student)request.getAttribute("student");
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Amount</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="amount" placeholder="Enter Amount" max="<%=(student.getFees()-student.getFeesPaid()) %>" required>
+								<input type="number" class="form-control1" id="focusedinput" name="amount" placeholder="Enter Amount" max="<%=(studentCourse.getFees()-studentCourse.getFeesPaid()) %>" required>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">
@@ -253,6 +266,10 @@ Student student = (Student)request.getAttribute("student");
 			</div>
 		</div>
 	</div>
+<%	
+	}
+}
+%>
 	<!-- main contents end -->
 
 	<!-- Classie -->

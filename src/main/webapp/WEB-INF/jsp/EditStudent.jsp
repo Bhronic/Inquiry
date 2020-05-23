@@ -1,3 +1,6 @@
+<%@page import="com.inquiry.model.StudentCourse"%>
+<%@page import="java.util.List"%>
+<%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Student, java.util.Optional"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -101,6 +104,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								</a>
 							</li>
 							<li class="treeview">
+							  <a href="ViewCourse">
+							  <i class="fa fa-book"></i> <span>View Course</span>
+							  </a>
+							</li>
+							<li class="treeview">
 								<a href="InquiryForm"> 
 									<i class="fa fa-edit"></i>
 									<span>Add Inquiry</span>
@@ -181,7 +189,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- main content start-->
 	
 <%
-	Student student = (Student)request.getAttribute("student");
+	StudentDetails student = (StudentDetails)request.getAttribute("student");
+	List<StudentCourse> list11 = student.getStudentCourse();
+	for(StudentCourse studentCourse :list11)
+	{
+		if(studentCourse.getStatus() == 0)
+		{
 %>
 	
 	<div id="page-wrapper">
@@ -191,6 +204,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<div class="form-three widget-shadow">
 					<form class="form-horizontal" action="StudentEditController" method="post">
 					<input type="hidden" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>">
+					<input type="hidden" class="form-control1" id="focusedinput" name="id1" value="<%=studentCourse.getID() %>">
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
 							<div class="col-sm-8">
@@ -232,10 +246,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<div class="col-sm-8">
 								<select name="course" id="selector1" class="form-control1" >
 									
-									<option value="Java" <%if(student.getCourse().equals("Java")){ %>selected<%} %>>Java</option>
-									<option value="Python" <%if(student.getCourse().equals("Python")){ %>selected<%} %>>Python</option>
-									<option value="C++" <%if(student.getCourse().equals("C++")){ %>selected<%} %>>C++</option>
-									<option value=".Net" <%if(student.getCourse().equals(".Net")){ %>selected<%} %>>.Net</option>
+									<option value="Java" <%if(studentCourse.getCourse().equals("Java")){ %>selected<%} %>>Java</option>
+									<option value="Python" <%if(studentCourse.getCourse().equals("Python")){ %>selected<%} %>>Python</option>
+									<option value="C++" <%if(studentCourse.getCourse().equals("C++")){ %>selected<%} %>>C++</option>
+									<option value=".Net" <%if(studentCourse.getCourse().equals(".Net")){ %>selected<%} %>>.Net</option>
 								</select>
 							</div>
 						</div>
@@ -243,28 +257,28 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<label for="selector1" class="col-sm-2 control-label">Preferred Batch Time</label>
 							<div class="col-sm-8">
 								<select name="batchTime" id="selector1" class="form-control1">
-									<option value="Morning" <%if(student.getBatch_time().equals("Morning")){ %>selected<%} %>>Morning</option>
-									<option value="Afternoon" <%if(student.getBatch_time().equals("Afternoon")){ %>selected<%} %>>Afternoon</option>
-									<option value="Evening" <%if(student.getBatch_time().equals("Evening")){ %>selected<%} %>>Evening</option>
+									<option value="Morning" <%if(studentCourse.getBatch_time().equals("Morning")){ %>selected<%} %>>Morning</option>
+									<option value="Afternoon" <%if(studentCourse.getBatch_time().equals("Afternoon")){ %>selected<%} %>>Afternoon</option>
+									<option value="Evening" <%if(studentCourse.getBatch_time().equals("Evening")){ %>selected<%} %>>Evening</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Date of Joining</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" name="joiningDate" value="<%=student.getJoining_date() %>" required>
+								<input type="date" class="form-control1" id="focusedinput" name="joiningDate" value="<%=studentCourse.getJoining_date() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Fees</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="fees" placeholder="Enter Fees" value="<%=student.getFees() %>" required>
+								<input type="number" class="form-control1" id="focusedinput" name="fees" placeholder="Enter Fees" value="<%=studentCourse.getFees() %>" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Teacher Appointed</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="teacher_appointed" placeholder="Enter Teacher" value="<%=student.getTeacher() %>" required>
+								<input type="text" class="form-control1" id="focusedinput" name="teacher_appointed" placeholder="Enter Teacher" value="<%=studentCourse.getTeacher() %>" required>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">
@@ -276,6 +290,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			</div>
 		</div>
 	</div>
+<%	
+		}
+	}
+%>
 	<!-- main contents end -->
 
 	<!-- Classie -->

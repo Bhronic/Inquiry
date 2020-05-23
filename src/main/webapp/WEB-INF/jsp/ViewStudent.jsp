@@ -1,3 +1,5 @@
+<%@page import="com.inquiry.model.StudentCourse"%>
+<%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Student"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -43,7 +45,22 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
-<style>
+
+<script src="js/sorttable.js"></script>
+<script src="js/searchTable.js"></script>
+
+<style type="text/css">
+table.sortable th{
+	cursor: pointer;
+}
+	#myInput {
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
 #chartdiv {
   width: 100%;
   height: 295px;
@@ -91,6 +108,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
               </li>
+			<li class="treeview">
+			  <a href="ViewCourse">
+			  <i class="fa fa-book"></i> <span>View Course</span>
+			  </a>
+			</li>
               <li class="treeview">
                 <a href="InquiryForm">
                 <i class="fa fa-edit"></i> <span>Add Inquiry</span>
@@ -174,10 +196,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<a href="#all" id="all-tab" role="tab" data-toggle="tab">All Students</a>
 					</li>
 					<li role="presentation">
-						<a href="#deleted" id="deleted-tab" role="tab" data-toggle="tab">Deleted Students</a>
+						<a href="#deleted" id="deleted-tab" role="tab" data-toggle="tab">Past Students</a>
 					</li> 
 					<li role="presentation"class="active">
-						<a href="#pending" role="tab" id="pending-tab" data-toggle="tab">Students</a>
+						<a href="#pending" role="tab" id="pending-tab" data-toggle="tab">Current Students</a>
 					</li> 
 				</ul>
 				<div id="myTabContent" class="tab-content scrollbar1"> 
@@ -189,32 +211,31 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 										<thead> 
 											<tr> 
 												<th>#</th> 
-												<th>Date of Joining</th>
+												<th>ID</th>
 												<th>Student Name</th> 
 												<th>Mobile Number</th> 
-												<th>Course</th>
-												<th>Teacher Appointed</th> 
+												<th>Total Courses</th>
+												<th>Course Completed</th> 
 											</tr> 
 										</thead>
 										<tbody>
 <%
-	List<Student> list1 = (List<Student>) request.getAttribute("viewAllList");
+	List<StudentDetails> list1 = (List<StudentDetails>) request.getAttribute("viewAllList");
 	int count = 0;
-		for(Student student :list1)
+		for(StudentDetails student :list1)
 		{
-		count++;
+			count++;
 %>
- 
 											<tr>
 												<th scope="row"><%=count %></th> 
-												<td><%=student.getJoining_date() %></td>
+												<td><%=student.getID() %></td>
 												<td><%=student.getStudent_name() %></td> 
 												<td><%=student.getMob_no() %></td> 
-												<td><%=student.getCourse() %></td>
-												<td><%=student.getTeacher() %></td>
+												<td><%=student.getTotal_course() %></td>
+												<td><%=student.getCourse_completed() %></td>
 											</tr>
 <%	
- 	} 
+		}
 	if(list1.isEmpty()) 
 	{
  %>
@@ -237,33 +258,38 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 										<thead> 
 											<tr> 
 												<th>#</th> 
-												<th>Date of Joining</th>
+												<th>Student ID</th>
 												<th>Student Name</th> 
 												<th>Mobile Number</th> 
-												<th>Course</th>
-												<th>Teacher Appointed</th> 
+												<th>Total Course</th>
+												<th>Course Completed</th> 
 											</tr> 
 										</thead>
 										<tbody>
 <%
-	List<Student> list2 = (List<Student>)request.getAttribute("viewDeletedList");
+	List<StudentDetails> list2 = (List<StudentDetails>) request.getAttribute("viewDeletedList");
 	count = 0;
- 	for(Student student :list2)
- 	{
-		count++;
+		for(StudentDetails student :list2)
+		{
+			List<StudentCourse> list22 = student.getStudentCourse();
+			count++;
+				if(student.getDel() == 1)
+				{
 %>
  
 											<tr>
 												<th scope="row"><%=count %></th> 
-												<td><%=student.getJoining_date() %></td>
+												<td><%=student.getID() %></td>
 												<td><%=student.getStudent_name() %></td> 
 												<td><%=student.getMob_no() %></td> 
-												<td><%=student.getCourse() %></td>
-												<td><%=student.getTeacher() %></td>
-												<td><a href="RetrieveStudentController?id=<%=student.getID() %>">Retrieve Student</a></td>
+												<td><%=student.getTotal_course() %></td>
+												<td><%=student.getCourse_completed() %></td>
+												<td><a href="StudentNewCourse?id=<%=student.getID() %>">New Course</a></td>
+												<td><a href="ViewStudentDetails?id=<%=student.getID() %>">View Details</a></td>
 											</tr>
 <%	
- 	} 
+				}
+		}
 	if(list2.isEmpty()) 
 	{
  %>
@@ -283,7 +309,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<p>
 							<div class="tables">
 								<div class="bs-example " data-example-id="hoverable-table">
-									<table class="table table-hover"> 
+								<input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search..." title="Type in a name">
+									<table class="table table-hover sortable" id="myTable"> 
 										<thead> 
 											<tr> 
 												<th>#</th> 
@@ -292,30 +319,38 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 												<th>Mobile Number</th> 
 												<th>Course</th>
 												<th>Teacher Appointed</th>
-												<th>Update</th> 
+												<th>Update Course Status</th>
 											</tr> 
 										</thead>
 										<tbody>
 <%
-	List<Student> list3 = (List<Student>)request.getAttribute("viewPendingList");
-		count = 0;
-	 	for(Student student :list3)
-	 	{
+	List<StudentDetails> list3 = (List<StudentDetails>) request.getAttribute("viewPendingList");
+	count = 0;
+		for(StudentDetails student :list3)
+		{
+			List<StudentCourse> list33 = student.getStudentCourse();
 			count++;
+			for(StudentCourse studentCourse :list33)
+			{
+				if(studentCourse.getStatus() == 0)
+				{
 %>
  
 											<tr>
 												<th scope="row"><%=count %></th> 
-												<td><%=student.getJoining_date() %></td>
+												<td><%=studentCourse.getJoining_date() %></td>
 												<td><%=student.getStudent_name() %></td> 
 												<td><%=student.getMob_no() %></td> 
-												<td><%=student.getCourse() %></td>
-												<td><%=student.getTeacher() %></td>
-												<td><a href="EditStudent?id=<%=student.getID() %>">Edit</a> / <a href="StudentDeleteController?id=<%=student.getID() %>">Delete</a></td>
+												<td><%=studentCourse.getCourse() %></td>
+												<td><%=studentCourse.getTeacher() %></td>
+												<td><a <%if(studentCourse.getFees() > studentCourse.getFeesPaid()){ %> onclick="alert('Fees not Paid')" href="#" <%} else{ %> href="UpdateStudentStatus?id=<%=student.getID() %><%} %>">Update</a></td>
 												<td><a href="ViewStudentDetails?id=<%=student.getID() %>">View Details</a></td> 
 											</tr>
+											
 <%	
- 	} 
+				}
+			}
+		}
 	if(list3.isEmpty()) 
 	{
  %>
@@ -374,6 +409,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.js"> </script>
 	<!-- //Bootstrap Core JavaScript -->
+	
 	
 </body>
 </html>
