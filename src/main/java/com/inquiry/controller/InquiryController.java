@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,30 +32,9 @@ public class InquiryController {
 	ActivityRepository activityRepository;
 	
 	@PostMapping("InquiryFormController") 
-	public void inquiryForm(HttpServletRequest request, HttpServletResponse response) {
+	public void inquiryForm(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("inquiry") Inquiry inquiry) {
 		
 		HttpSession session=request.getSession(false);
-		
-		java.util.Date dt = Calendar.getInstance().getTime();
-		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-		String inquiry_date = dateFormat.format(dt);
-		Date inquiryDate =  Date.valueOf(inquiry_date);
-		Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-		Date joiningDate = Date.valueOf(request.getParameter("joiningDate"));
-		
-		Inquiry inquiry = new Inquiry();
-		
-		inquiry.setInquiry_date(inquiryDate);
-		inquiry.setStudent_name(request.getParameter("studentName"));
-		inquiry.setMob_no(request.getParameter("mobileNumber"));
-		inquiry.setEmail(request.getParameter("email"));
-		inquiry.setDob(birthDate);
-		inquiry.setAddress(request.getParameter("address"));
-		inquiry.setQualification(request.getParameter("qualification"));
-		inquiry.setCourse(request.getParameter("course"));
-		inquiry.setBatch_time(request.getParameter("batchTime"));
-		inquiry.setJoining_date(joiningDate);
-		inquiry.setDel(0);
 		
 		inquiryService.addInquiry(inquiry);
 		

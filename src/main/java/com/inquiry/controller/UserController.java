@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,15 +84,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/SignUpController")
-	public void signUpController(HttpServletRequest request, HttpServletResponse response) {
-		User user = new User();
-		
-		user.setFname(request.getParameter("firstname"));
-		user.setLname(request.getParameter("lastname"));
-		user.setEmail(request.getParameter("email"));
-		user.setGender(request.getParameter("gender"));
-		user.setUsername(request.getParameter("username"));
-		user.setPassword(request.getParameter("password"));
+	public void signUpController(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user) {
     	
 		User u = userService.signUp(user);
 		if(u != null) {

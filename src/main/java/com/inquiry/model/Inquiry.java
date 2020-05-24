@@ -14,7 +14,7 @@ public class Inquiry {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ID;
 	
-	private Date inquiry_date;
+	private java.util.Date inquiry_date = new java.util.Date();
 	
 	private String student_name;
 	
@@ -45,7 +45,7 @@ public class Inquiry {
 	}
 
 	public Date getInquiry_date() {
-		return inquiry_date;
+		return (Date) inquiry_date;
 	}
 
 	public void setInquiry_date(Date inquiry_date) {

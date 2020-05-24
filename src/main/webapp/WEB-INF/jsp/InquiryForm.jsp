@@ -187,17 +187,17 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			<div class="row">
 				<h3 class="title1">Inquiry Form :</h3>
 				<div class="form-three widget-shadow">
-					<form class="form-horizontal" action="InquiryFormController" method="post">
+					<form class="form-horizontal" action="InquiryFormController" method="post" modelAttribute="inquiry">
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="studentName" placeholder="Enter Student Name" required>
+								<input type="text" class="form-control1" id="focusedinput" name="student_name" placeholder="Enter Student Name" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Mobile Number</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="mobileNumber" placeholder="Enter Mobile Number" min="6000000000" max="9999999999" required>
+								<input type="number" class="form-control1" id="focusedinput" name="mob_no" placeholder="Enter Mobile Number" min="6000000000" max="9999999999" required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -209,7 +209,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Date of Birth</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" name="birthDate" required>
+								<input type="date" class="form-control1" id="focusedinput" name="dob" required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -259,7 +259,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Preferred Batch Time</label>
 							<div class="col-sm-8">
-								<select name="batchTime" id="selector1" class="form-control1">
+								<select name="batch_time" id="selector1" class="form-control1">
 									<option value="Morning">Morning</option>
 									<option value="Afternoon">Afternoon</option>
 									<option value="Evening">Evening</option>
@@ -269,7 +269,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Date of Joining</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control1" id="focusedinput" name="joiningDate" required>
+								<input type="date" class="form-control1" id="focusedinput" name="joining_date" required>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">

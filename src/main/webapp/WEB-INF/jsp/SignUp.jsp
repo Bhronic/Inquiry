@@ -58,12 +58,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<div class="sign-up-row widget-shadow">
 				<center style="color:red">${msg }</center>
 					<h5>Personal Information :</h5>
-				<form action="SignUpController" method="post">
+				<form action="SignUpController" method="post" modelAttribute="user">
 					<div class="sign-u">
-						<input type="text" name="firstname" placeholder="First Name" required>
+						<input type="text" name="fname" placeholder="First Name" required>
 					</div>
 					<div class="sign-u">
-						<input type="text" name="lastname" placeholder="Last Name" required>
+						<input type="text" name="lname" placeholder="Last Name" required>
 					</div>
 					<div class="sign-u">
 						<input type="email" name="email" placeholder="Email Address" required>
