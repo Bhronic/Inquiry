@@ -7,5 +7,7 @@ import com.inquiry.model.Activity;
 public interface ActivityDao {
 	
 	public List<Activity> viewActivity(String uname);
+	
+	public Activity addActivity(Activity activity);
 
 }

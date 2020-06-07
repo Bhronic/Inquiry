@@ -89,7 +89,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<nav class="navbar navbar-inverse">
 					<div class="navbar-header">
 						<h1>
-							<a class="navbar-brand" href="index.html"><span
+							<a class="navbar-brand" href="index"><span
 								class="fa fa-area-chart"></span> Inquiry<span
 								class="dashboard_text">Design dashboard</span></a>
 						</h1>
@@ -229,33 +229,22 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<label for="selector1" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
 								<select name="course" id="selector1" class="form-control1">
-					<%
-								CourseService courseService = new CourseServiceImpl();
-								try{
-									List<Course> courseList = courseService.viewAllCourse();
-									for(Course course : courseList)
-									{	
-					%>
-									<option value="<%=course.getCourse_name() %>"><%=course.getCourse_name() %></option>
-					<%
+								<%
+									List<Course> list1 = (List<Course>) request.getAttribute("viewCourseList");
+									if(list1 != null)
+									{
+										for(Course course :list1)
+										{
+								%>
+											<option value="<%=course.getCourse_name() %>"><%=course.getCourse_name() %></option>
+								<%
+										}
 									}
-								}catch(Exception e){e.printStackTrace();}
-					%>
+								%>
 								</select>
 							</div>
 						</div>
 						
-						<div class="form-group">
-							<label for="selector1" class="col-sm-2 control-label">Course</label>
-							<div class="col-sm-8">
-								<select name="course" id="selector1" class="form-control1">
-									<option value="Java">Java</option>
-									<option value="Python">Python</option>
-									<option value="C++">C++</option>
-									<option value=".Net">.Net</option>
-								</select>
-							</div>
-						</div>
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Preferred Batch Time</label>
 							<div class="col-sm-8">

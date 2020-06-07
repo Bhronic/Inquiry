@@ -1,3 +1,5 @@
+<%@page import="java.time.temporal.ChronoUnit"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="com.inquiry.model.StudentCourse"%>
 <%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Student"%>
@@ -87,7 +89,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<aside class="sidebar-left">
       <nav class="navbar navbar-inverse">
           <div class="navbar-header">
-            <h1><a class="navbar-brand" href="index.html"><span class="fa fa-area-chart"></span> Inquiry<span class="dashboard_text">Design dashboard</span></a></h1>
+            <h1><a class="navbar-brand" href="index"><span class="fa fa-area-chart"></span> Inquiry<span class="dashboard_text">Design dashboard</span></a></h1>
           </div>
           <div >
             <ul class="sidebar-menu">
@@ -332,7 +334,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			List<StudentCourse> list33 = student.getStudentCourse();
 			for(StudentCourse studentCourse :list33)
 			{
-				if(studentCourse.getStatus() == 0 && studentCourse.getFees() > studentCourse.getFeesPaid())
+				LocalDate localDate = LocalDate.now();
+				LocalDate lastDate = studentCourse.getLast_fees_paid().toLocalDate();
+				long days = ChronoUnit.DAYS.between(lastDate, localDate);
+				if(studentCourse.getStatus() == 0 && studentCourse.getFees() > studentCourse.getFeesPaid() && days > 7)
 				{
 					count++;
 					double feesLeft = (studentCourse.getFees() - studentCourse.getFeesPaid());
@@ -353,7 +358,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				}
 			}
 		}
-	if(list3.isEmpty()) 
+	if(count == 0) 
 	{
  %>
  	<tr><td colspan="7" style="text-align: center;">No Records Found</td></tr>

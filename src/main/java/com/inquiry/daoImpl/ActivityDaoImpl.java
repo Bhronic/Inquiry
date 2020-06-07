@@ -20,4 +20,9 @@ public class ActivityDaoImpl implements ActivityDao {
 		return activityRepository.findAllByAdminName(uname);
 	}
 
+	@Override
+	public Activity addActivity(Activity activity) {
+		return activityRepository.save(activity);
+	}
+
 }

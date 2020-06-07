@@ -88,7 +88,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<nav class="navbar navbar-inverse">
 					<div class="navbar-header">
 						<h1>
-							<a class="navbar-brand" href="index.html"><span
+							<a class="navbar-brand" href="index"><span
 								class="fa fa-area-chart"></span> Inquiry<span
 								class="dashboard_text">Design dashboard</span></a>
 						</h1>
@@ -248,10 +248,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Choose Status</label>
 							<div class="col-sm-8">
-								<select name="status" id="selector1" class="form-control1">
-									<option value="1">Completed</option>
-									<option value="2">Discontinue</option>
-								</select>
+<!-- 								<select name="status" id="selector1" class="form-control1"> -->
+<!-- 									<option value="1">Completed</option> -->
+<!-- 									<option value="2">Discontinue</option> -->
+<!-- 								</select> -->
+								<div class="form-control1">
+									<label>
+										<input type="radio" name="status" value="1" required>
+										Completed
+									</label>
+									<label>
+										<input type="radio" name="status" value="2" required>
+										Discontinue
+									</label>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -263,10 +273,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Certificate Given</label>
 							<div class="col-sm-8">
-								<select name="certificate" id="selector1" class="form-control1">
-									<option value="0">No</option>
-									<option value="1">Yes (Only if Course is Completed)</option>
-								</select>
+<!-- 								<select name="certificate" id="selector1" class="form-control1"> -->
+<!-- 									<option value="0">No</option> -->
+<!-- 									<option value="1">Yes (Only if Course is Completed)</option> -->
+<!-- 								</select> -->
+								<div class="form-control1">
+									<label>
+										<input type="radio" name="certificate" value="1" required>
+										Yes
+									</label>
+									<label>
+										<input type="radio" name="certificate" value="0" required>
+										No
+									</label>
+								</div>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">

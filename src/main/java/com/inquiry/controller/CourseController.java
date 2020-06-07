@@ -1,13 +1,14 @@
 package com.inquiry.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +31,7 @@ public class CourseController {
 	}
 	
 	@PostMapping("AddCourseController")
-	public void addCourse(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addCourse(HttpServletRequest request)
 	{
 		Course course = new Course();
 		course.setCourse_id(Integer.parseInt(request.getParameter("courseID")));
@@ -38,11 +39,7 @@ public class CourseController {
 		
 		courseService.addCourse(course);
 		
-		try {
-			response.sendRedirect("ViewCourse");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return new ModelAndView("redirect:ViewCourse");
 	}
 	
 	@RequestMapping("EditCourse")
@@ -54,7 +51,7 @@ public class CourseController {
 	}
 	
 	@PostMapping("CourseEditController")
-	public void courseEditController(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView courseEditController(HttpServletRequest request)
 	{
 		Course course = new Course();
 		
@@ -63,23 +60,28 @@ public class CourseController {
 		course.setCourse_name(request.getParameter("courseName"));
 		
 		courseService.addCourse(course);
-		try {
-			response.sendRedirect("ViewCourse");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return new ModelAndView("redirect:ViewCourse");
 	}
 	
 	@RequestMapping("CourseDeleteController")
-	public void courseDeleteController(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView courseDeleteController(HttpServletRequest request)
 	{
 		int id = Integer.parseInt(request.getParameter("id"));
 		courseService.deleteCourse(id);
-		try {
-			response.sendRedirect("ViewCourse");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return new ModelAndView("redirect:ViewCourse");
+	}
+	
+	@RequestMapping("CourseList")
+	public ModelAndView courseList(HttpServletRequest request)
+	{
+		List<Course> viewCourseList = courseService.viewAllCourse();
+		request.setAttribute("viewCourseList", viewCourseList);
+		return new ModelAndView(request.getParameter("url"));
+	}
+	
+	@GetMapping("/courseList")
+	public ResponseEntity<List<Course>> getCompanyList() {
+		return new ResponseEntity<List<Course>>(courseService.viewAllCourse(), HttpStatus.OK);
 	}
 
 }

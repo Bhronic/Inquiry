@@ -89,7 +89,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<nav class="navbar navbar-inverse">
 					<div class="navbar-header">
 						<h1>
-							<a class="navbar-brand" href="index.html"><span
+							<a class="navbar-brand" href="index"><span
 								class="fa fa-area-chart"></span> Inquiry<span
 								class="dashboard_text">Design dashboard</span></a>
 						</h1>
@@ -204,16 +204,18 @@ for(StudentCourse studentCourse :list11)
 				<h3 class="title1">Pay Fee :</h3>
 				<div class="form-three widget-shadow">
 					<form class="form-horizontal" action="PayFeeController" method="post">
+					<input type="hidden" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>">
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Student ID</label>
 							<div class="col-sm-8">
-								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>">
+								<input type="number" class="form-control1" id="focusedinput" name="id" value="<%=student.getID() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="focusedinput" class="col-sm-2 control-label">Student Name</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="studentName" value="<%=student.getStudent_name() %>">
+								<input type="hidden" class="form-control1" id="focusedinput" name="studentName" value="<%=student.getStudent_name() %>">
+								<input type="text" class="form-control1" id="focusedinput" name="studentName" value="<%=student.getStudent_name() %>" disabled>
 							</div>
 						</div>
 						<div class="form-group">

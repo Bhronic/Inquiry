@@ -14,7 +14,15 @@ public class Inquiry {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ID;
 	
-	private java.util.Date inquiry_date = new java.util.Date();
+	/*java.util.Date dt = Calendar.getInstance().getTime();
+	DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+	String idate = dateFormat.format(dt);*/
+	
+	//private Date inquiry_date =  Date.valueOf(idate);
+	
+	//private Date inquiry_date = new Date();
+	
+	private Date inquiry_date;
 	
 	private String student_name;
 	
@@ -45,7 +53,7 @@ public class Inquiry {
 	}
 
 	public Date getInquiry_date() {
-		return (Date) inquiry_date;
+		return inquiry_date;
 	}
 
 	public void setInquiry_date(Date inquiry_date) {

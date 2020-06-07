@@ -1,9 +1,10 @@
 <%@page import="com.inquiry.model.StudentCourse"%>
 <%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Student"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.List" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -98,7 +99,7 @@ table.sortable th{
 		<aside class="sidebar-left">
       <nav class="navbar navbar-inverse">
           <div class="navbar-header">
-            <h1><a class="navbar-brand" href="index.html"><span class="fa fa-area-chart"></span> Inquiry<span class="dashboard_text">Design dashboard</span></a></h1>
+            <h1><a class="navbar-brand" href="index"><span class="fa fa-area-chart"></span> Inquiry<span class="dashboard_text">Design dashboard</span></a></h1>
           </div>
           <div >
             <ul class="sidebar-menu">
@@ -219,30 +220,23 @@ table.sortable th{
 											</tr> 
 										</thead>
 										<tbody>
-<%
-	List<StudentDetails> list1 = (List<StudentDetails>) request.getAttribute("viewAllList");
-	int count = 0;
-		for(StudentDetails student :list1)
-		{
-			count++;
-%>
-											<tr>
-												<th scope="row"><%=count %></th> 
-												<td><%=student.getID() %></td>
-												<td><%=student.getStudent_name() %></td> 
-												<td><%=student.getMob_no() %></td> 
-												<td><%=student.getTotal_course() %></td>
-												<td><%=student.getCourse_completed() %></td>
-											</tr>
-<%	
-		}
-	if(list1.isEmpty()) 
-	{
- %>
- 	<tr><td colspan="6" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
+
+											<c:set var="count" value="${0 }" />
+											<c:forEach var = "student" items = "${viewAllList}">
+												<c:set var="count" value="${count + 1 }" />
+												<tr>
+													<th>${count }</th>
+													<td>${student.ID }</td>
+													<td>${student.student_name }</td>
+													<td>${student.mob_no }</td>
+													<td>${student.total_course }</td>
+													<td>${student.course_completed }</td>
+													<td><a href="ViewStudentDetails?id=${student.ID }">View Details</a></td>
+												</tr>
+											</c:forEach>
+											<c:if test="${count == 0}">
+												<tr><td colspan="6" style="text-align: center;">No Records Found</td></tr>
+											</c:if>
 										</tbody> 
 									</table>
 								</div>
@@ -265,38 +259,24 @@ table.sortable th{
 												<th>Course Completed</th> 
 											</tr> 
 										</thead>
-										<tbody>
-<%
-	List<StudentDetails> list2 = (List<StudentDetails>) request.getAttribute("viewDeletedList");
-	count = 0;
-		for(StudentDetails student :list2)
-		{
-			List<StudentCourse> list22 = student.getStudentCourse();
-			count++;
-				if(student.getDel() == 1)
-				{
-%>
- 
-											<tr>
-												<th scope="row"><%=count %></th> 
-												<td><%=student.getID() %></td>
-												<td><%=student.getStudent_name() %></td> 
-												<td><%=student.getMob_no() %></td> 
-												<td><%=student.getTotal_course() %></td>
-												<td><%=student.getCourse_completed() %></td>
-												<td><a href="StudentNewCourse?id=<%=student.getID() %>">New Course</a></td>
-												<td><a href="ViewStudentDetails?id=<%=student.getID() %>">View Details</a></td>
-											</tr>
-<%	
-				}
-		}
-	if(list2.isEmpty()) 
-	{
- %>
- 	<tr><td colspan="6" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
+										<tbody> 
+											<c:set var="count" value="${0 }" />
+											<c:forEach var = "student" items = "${viewDeletedList}">
+												<c:set var="count" value="${count + 1 }" />
+												<tr>
+													<th>${count }</th>
+													<td>${student.ID }</td>
+													<td>${student.student_name }</td>
+													<td>${student.mob_no }</td>
+													<td>${student.total_course }</td>
+													<td>${student.course_completed }</td>
+													<td><a href="StudentNewCourse?id=${student.ID }">New Course</a></td> 
+													<td><a href="ViewStudentDetails?id=${student.ID }">View Details</a></td>
+												</tr>
+											</c:forEach>
+											<c:if test="${count == 0}">
+												<tr><td colspan="8" style="text-align: center;">No Records Found</td></tr>
+											</c:if>
 										</tbody> 
 									</table>
 								</div>
@@ -323,41 +303,27 @@ table.sortable th{
 											</tr> 
 										</thead>
 										<tbody>
-<%
-	List<StudentDetails> list3 = (List<StudentDetails>) request.getAttribute("viewPendingList");
-	count = 0;
-		for(StudentDetails student :list3)
-		{
-			List<StudentCourse> list33 = student.getStudentCourse();
-			count++;
-			for(StudentCourse studentCourse :list33)
-			{
-				if(studentCourse.getStatus() == 0)
-				{
-%>
- 
-											<tr>
-												<th scope="row"><%=count %></th> 
-												<td><%=studentCourse.getJoining_date() %></td>
-												<td><%=student.getStudent_name() %></td> 
-												<td><%=student.getMob_no() %></td> 
-												<td><%=studentCourse.getCourse() %></td>
-												<td><%=studentCourse.getTeacher() %></td>
-												<td><a <%if(studentCourse.getFees() > studentCourse.getFeesPaid()){ %> onclick="alert('Fees not Paid')" href="#" <%} else{ %> href="UpdateStudentStatus?id=<%=student.getID() %><%} %>">Update</a></td>
-												<td><a href="ViewStudentDetails?id=<%=student.getID() %>">View Details</a></td> 
-											</tr>
-											
-<%	
-				}
-			}
-		}
-	if(list3.isEmpty()) 
-	{
- %>
- 	<tr><td colspan="6" style="text-align: center;">No Records Found</td></tr>
- <%
- 	}
- %>
+											<c:set var="count" value="${0 }" />
+											<c:forEach var = "student" items = "${viewPendingList}">
+												<c:set var="count" value="${count + 1 }" />
+												<c:forEach var ="studentCourse" items = "${student.studentCourse}">
+													<c:if test="${studentCourse.status == 0}">
+														<tr>
+															<th>${count }</th>
+															<td>${studentCourse.joining_date }</td>
+															<td>${student.student_name }</td>
+															<td>${student.mob_no }</td>
+															<td>${studentCourse.course }</td>
+															<td>${studentCourse.teacher }</td>
+															<td><a <c:if test="${studentCourse.fees > studentCourse.feesPaid}"> onclick="alert('Fees not Paid')" href="#"</c:if> href="UpdateStudentStatus?id=${student.ID }">Update</a></td> 
+															<td><a href="ViewStudentDetails?id=${student.ID }">View Details</a></td>
+														</tr>			
+													</c:if>
+												</c:forEach>
+											</c:forEach>
+											<c:if test="${count == 0}">
+												<tr><td colspan="8" style="text-align: center;">No Records Found</td></tr>
+											</c:if>
 										</tbody> 
 									</table>
 								</div>

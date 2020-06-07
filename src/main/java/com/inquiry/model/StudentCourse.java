@@ -30,6 +30,8 @@ public class StudentCourse {
 	
 	private Double feesPaid;
 	
+	private Date last_fees_paid;
+	
 	@Column(columnDefinition = "int default 0")
 	private int status;	//Current = 0, Completed = 1, Discontinued = 2
 	
@@ -100,6 +102,14 @@ public class StudentCourse {
 
 	public void setFeesPaid(Double feesPaid) {
 		this.feesPaid = feesPaid;
+	}
+
+	public Date getLast_fees_paid() {
+		return last_fees_paid;
+	}
+
+	public void setLast_fees_paid(Date last_fees_paid) {
+		this.last_fees_paid = last_fees_paid;
 	}
 
 	public int getStatus() {

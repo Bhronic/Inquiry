@@ -20,4 +20,9 @@ public class ActivityServiceImpl implements ActivityService {
 		return activityDao.viewActivity(uname);
 	}
 
+	@Override
+	public Activity addActivity(Activity activity) {
+		return activityDao.addActivity(activity);
+	}
+
 }

@@ -9,7 +9,7 @@ public class Controller {
 	@RequestMapping("/")
 	public ModelAndView login()
 	{
-		return new ModelAndView("Login");
+		return new ModelAndView("index");
 	}
 	
 	@RequestMapping("/Login")
@@ -33,7 +33,7 @@ public class Controller {
 	@RequestMapping("/InquiryForm")
 	public ModelAndView inquiryForm()
 	{
-		return new ModelAndView("InquiryForm");
+		return new ModelAndView("redirect:CourseList?url=InquiryForm");
 	}
 	
 }

@@ -69,6 +69,25 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							});
 						</script>
 <!-- //requried-jsfiles-for owl -->
+
+<!-- Script to Display Course -->
+<script>
+
+	$(document).ready(function() {
+		GetAllProperties();
+
+	});
+	function GetAllProperties() {
+		$.getJSON('http://localhost:8085/courseList',
+					function(json) {
+						for (var i = 0; i < json.length; i++) {
+							$("#data-course-select").append(
+									"<option value='" +json[i].course_name +"'>" +json[i].course_name +"</option>");
+						}
+					});
+	}
+</script>
+
 </head>
 <%
 	session=request.getSession(false);  
@@ -87,7 +106,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<nav class="navbar navbar-inverse">
 					<div class="navbar-header">
 						<h1>
-							<a class="navbar-brand" href="index.html"><span
+							<a class="navbar-brand" href="index"><span
 								class="fa fa-area-chart"></span> Inquiry<span
 								class="dashboard_text">Design dashboard</span></a>
 						</h1>
@@ -243,11 +262,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 							<label for="selector1" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
-								<select name="course" id="selector1" class="form-control1" >
-									<option value="Java">Java</option>
-									<option value="Python">Python</option>
-									<option value="C++">C++</option>
-									<option value=".Net">.Net</option>
+								<select name="course" id="data-course-select" class="form-control1" >
+									
 								</select>
 							</div>
 						</div>
@@ -275,7 +291,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-sm-offset-2">
 							<button type="submit" class="btn btn-default">Submit</button>
-							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewInquiry')">Cancel</button>
+							<button type="reset" class="btn btn-default" onClick="window.location.replace('ViewStudent')">Cancel</button>
 						</div>
 					</form>
 				</div>

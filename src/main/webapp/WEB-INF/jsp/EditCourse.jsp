@@ -86,7 +86,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<nav class="navbar navbar-inverse">
 					<div class="navbar-header">
 						<h1>
-							<a class="navbar-brand" href="index.html"><span
+							<a class="navbar-brand" href="index"><span
 								class="fa fa-area-chart"></span> Inquiry<span
 								class="dashboard_text">Design dashboard</span></a>
 						</h1>
