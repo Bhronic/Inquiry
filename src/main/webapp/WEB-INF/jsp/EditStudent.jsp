@@ -10,6 +10,7 @@
 <title>Edit Student</title>
 <style type="text/css">
 	.active6{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
@@ -33,6 +34,14 @@
 </script>
 
 </head>
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
 <body class="cbp-spmenu-push">
 	
 	<jsp:include page="NavBar.jsp"/>

@@ -33,13 +33,30 @@ public class CourseController {
 	@PostMapping("AddCourseController")
 	public ModelAndView addCourse(HttpServletRequest request)
 	{
+		ModelAndView mv = new ModelAndView("redirect:ViewCourse");
+		
 		Course course = new Course();
 		course.setCourse_id(Integer.parseInt(request.getParameter("courseID")));
 		course.setCourse_name(request.getParameter("courseName"));
 		
+		if(request.getParameter("faculty") != null)
+		{			
+			String fId[] = request.getParameterValues("faculty");
+			int i = 0;
+			int[] facultyId = new int[fId.length]; 
+			for(String str:fId)
+			{
+				facultyId[i] = Integer.parseInt(str);
+				i++;	
+			}
+			mv = new ModelAndView("redirect:AddCourseFaculty");
+			mv.addObject("facultyId", facultyId);
+			mv.addObject("course", course.getCourse_name());
+		}
+		
 		courseService.addCourse(course);
 		
-		return new ModelAndView("redirect:ViewCourse");
+		return mv;
 	}
 	
 	@RequestMapping("EditCourse")
@@ -80,7 +97,7 @@ public class CourseController {
 	}
 	
 	@GetMapping("/courseList")
-	public ResponseEntity<List<Course>> getCompanyList() {
+	public ResponseEntity<List<Course>> getCourseList() {
 		return new ResponseEntity<List<Course>>(courseService.viewAllCourse(), HttpStatus.OK);
 	}
 

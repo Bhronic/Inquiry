@@ -8,6 +8,14 @@
 <title>View Activity</title>
 <jsp:include page="files.jsp"/>
 </head>
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
 <body class="cbp-spmenu-push">
 	
 <jsp:include page="NavBar.jsp"/>

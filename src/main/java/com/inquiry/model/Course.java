@@ -1,9 +1,14 @@
 package com.inquiry.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -18,6 +23,10 @@ public class Course {
 	private int course_id;
 	
 	private String course_name;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "c_id")
+	private List<CourseTeacher> courseTeacherList;
 
 	public int getID() {
 		return ID;
@@ -41,6 +50,14 @@ public class Course {
 
 	public void setCourse_name(String course_name) {
 		this.course_name = course_name;
+	}
+
+	public List<CourseTeacher> getCourseTeacherList() {
+		return courseTeacherList;
+	}
+
+	public void setCourseTeacherList(List<CourseTeacher> courseTeacherList) {
+		this.courseTeacherList = courseTeacherList;
 	}
 	
 }

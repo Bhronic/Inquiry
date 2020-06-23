@@ -11,6 +11,7 @@
 <title>Edit Inquiry</title>
 <style type="text/css">
 	.active5{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
@@ -18,6 +19,15 @@
 <jsp:include page="files.jsp"/>
 
 </head>
+
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
 
 <!-- Script to Display Course -->
 <script>
@@ -36,8 +46,7 @@
 								$("#data-course-select").append(
 								
 									"<option value='" +json[i].course_name +"'>" +json[i].course_name +"</option>");	
-							}
-									
+							}		
 						}
 					});
 	}
@@ -103,7 +112,7 @@
 							<label for="selector1" class="col-sm-2 control-label">Course</label>
 							<div class="col-sm-8">
 								<select name="course" id="data-course-select" class="form-control1" >
-	 								<option value="${inquiy.course }">${inquiry.course }</option>
+	 								<option value="${inquiry.course }">${inquiry.course }</option>
 								</select>
 							</div>
 						</div>

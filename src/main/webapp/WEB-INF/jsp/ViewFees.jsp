@@ -12,11 +12,20 @@
 <title>Fees</title>
 <style type="text/css">
 	.active7{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
 <jsp:include page="files.jsp"/>
 </head>
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
 <body class="cbp-spmenu-push">
 	
 <jsp:include page="NavBar.jsp"/>
@@ -75,7 +84,7 @@
 				}
 			}
 		}
-	if(list1.isEmpty()) 
+	if(count == 0) 
 	{
  %>
  	<tr><td colspan="5" style="text-align: center;">No Records Found</td></tr>
@@ -179,7 +188,7 @@
 				LocalDate localDate = LocalDate.now();
 				LocalDate lastDate = studentCourse.getLast_fees_paid().toLocalDate();
 				long days = ChronoUnit.DAYS.between(lastDate, localDate);
-				if(studentCourse.getStatus() == 0 && studentCourse.getFees() > studentCourse.getFeesPaid() && days > 7)
+				if(studentCourse.getStatus() == 0 && studentCourse.getFees() > studentCourse.getFeesPaid() && days > 30)
 				{
 					count++;
 					double feesLeft = (studentCourse.getFees() - studentCourse.getFeesPaid());

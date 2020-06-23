@@ -8,11 +8,40 @@
 <title>View Course</title>
 <style type="text/css">
 	.active2{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
 <jsp:include page="files.jsp"/>
 </head>
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
+
+<!-- Script to Display Faculty -->
+<script>
+
+	$(document).ready(function() {
+		GetAllProperties();
+
+	});
+	
+	function GetAllProperties() {
+		$.getJSON('http://localhost:8085/facultyList',
+					function(json) {
+						for (var i = 0; i < json.length; i++) {
+								$("#data-faculty-select").append(
+									"<option value='" +json[i].id +"'>" +json[i].faculty_name +"</option>");
+						}
+					});
+	}
+</script>
+
 <body class="cbp-spmenu-push">
 	
 	<jsp:include page="NavBar.jsp"/>
@@ -32,6 +61,10 @@
 									</div>
 									<div class="col-md-2 grid_box1">
 										<input type="text" class="form-control1" id="focusedinput" name="courseName" placeholder="Enter Course Name" required>
+									</div>
+									<div class="col-md-2 grid_box1">
+										<select name="faculty" id="data-faculty-select" class="form-control1" multiple>
+										</select>
 									</div>
 									<button type="submit" class="btn btn-default col-md-1">Add</button>
 								</div>

@@ -12,13 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
-public class TeacherDetails {
+public class FacultyDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ID;
 	
-	private String teacher_name;
+	private String faculty_name;
 	
 	private String mob_no;
 	
@@ -34,7 +34,7 @@ public class TeacherDetails {
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "teacher_id")
-	private List<TeacherCourse> courseList;
+	private List<FacultyCourse> courseList;
 
 	public int getID() {
 		return ID;
@@ -44,12 +44,12 @@ public class TeacherDetails {
 		ID = iD;
 	}
 
-	public String getTeacher_name() {
-		return teacher_name;
+	public String getFaculty_name() {
+		return faculty_name;
 	}
 
-	public void setTeacher_name(String teacher_name) {
-		this.teacher_name = teacher_name;
+	public void setFaculty_name(String faculty_name) {
+		this.faculty_name = faculty_name;
 	}
 
 	public String getMob_no() {
@@ -100,11 +100,11 @@ public class TeacherDetails {
 		this.hourly_wage = hourly_wage;
 	}
 
-	public List<TeacherCourse> getCourseList() {
+	public List<FacultyCourse> getCourseList() {
 		return courseList;
 	}
 
-	public void setCourseList(List<TeacherCourse> courseList) {
+	public void setCourseList(List<FacultyCourse> courseList) {
 		this.courseList = courseList;
 	}
 

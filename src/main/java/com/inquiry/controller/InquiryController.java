@@ -73,7 +73,6 @@ public class InquiryController {
 	
 	@PostMapping("InquiryEditController")
 	public ModelAndView inquiryEditController(HttpServletRequest request, @ModelAttribute("inquiry") Inquiry inquiry) {
-		
 		inquiryService.addInquiry(inquiry);
 		
 		HttpSession session=request.getSession(false);

@@ -11,11 +11,20 @@
 <title>View Student</title>
 <style type="text/css">
 	.active6{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
 <jsp:include page="files.jsp"/>
 </head>
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
 <body class="cbp-spmenu-push">
 	
 <jsp:include page="NavBar.jsp"/>

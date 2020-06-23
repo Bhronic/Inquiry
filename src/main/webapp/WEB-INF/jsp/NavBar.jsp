@@ -1,4 +1,3 @@
-
 <%
 	session=request.getSession(false);  
 	String uname=(String)session.getAttribute("uname");
@@ -7,7 +6,6 @@
 		response.sendRedirect("Login");
 	}
 %>	
-	
 	<!--left-fixed -navigation-->
 	<div class="main-content">
 		<div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left"
@@ -37,8 +35,8 @@
 							  </a>
 							</li>
 							<li class="treeview active3">
-							  <a href="ViewTeacher">
-							  <i class="fa fa-book"></i> <span>View Teacher</span>
+							  <a href="ViewFaculty">
+							  <i class="fa fa-user"></i> <span>View Faculty</span>
 							  </a>
 							</li>
 							<li class="treeview active4"><a href="InquiryForm"> <i class="fa fa-edit"></i>
@@ -54,7 +52,7 @@
 				            </li>
 				            <li class="treeview active7">
 				                <a href="ViewFees">
-				                <i class="fa fa-dollar"></i> <span>Fees</span>
+				                <i class="fa fa-rupee"></i> <span>Fees</span>
 				                </a>
 				            </li>
 						</ul>

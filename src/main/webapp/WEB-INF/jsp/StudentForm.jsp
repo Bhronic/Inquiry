@@ -7,11 +7,70 @@
 <title>Student Form</title>
 <style type="text/css">
 	.active6{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
 <jsp:include page="files.jsp"/>
 </head>
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
+
+<!-- Script to Display Course -->
+<script>
+
+	$(document).ready(function() {
+		GetAllCourse();
+
+	});
+	
+	function GetAllCourse() {
+		$.getJSON('http://localhost:8085/courseList',
+					function(json) {
+						for (var i = 0; i < json.length; i++) {
+							if("${inquiry.course }" != json[i].course_name)
+							{
+								$("#data-course-select").append(
+								
+									"<option value='" +json[i].course_name +"'>" +json[i].course_name +"</option>");	
+							}
+									
+						}
+					});
+	}
+</script>
+
+<!-- Script to Display Faculty -->
+<script>
+
+	$(document).ready(function() {
+		GetAllFaculty();
+
+	});
+	
+	function GetAllFaculty() {
+		$.getJSON('http://localhost:8085/facultyList',
+					function(json) {
+						for (var i = 0; i < json.length; i++) {
+							for(var j = 0; j < json[i].courseList.length; j++)
+							{
+								if(json[i].courseList[j].course == "${inquiry.course }")
+								{
+									$("#data-faculty-select").append(
+										"<option value='" +json[i].faculty_name +"'>" +json[i].faculty_name +"</option>");
+								}
+							}
+						}
+					});
+	}
+</script>
+
 <body class="cbp-spmenu-push">
 
 <jsp:include page="NavBar.jsp"/>
@@ -89,9 +148,11 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="focusedinput" class="col-sm-2 control-label">Teacher Appointed</label>
+							<label for="selector1" class="col-sm-2 control-label">Faculty Appointed</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control1" id="focusedinput" name="teacher_appointed" placeholder="Enter Teacher Appointed" required>
+								<select name="course" id="data-faculty-select" class="form-control1">
+									<option disabled selected>Select a Faculty</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-sm-offset-2">

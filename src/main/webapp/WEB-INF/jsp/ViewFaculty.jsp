@@ -8,10 +8,11 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Inquiry Form</title>
+<title>View Faculty</title>
 
 <style>
 	.active3{
+		border-left: 3px solid #3c8dbc;
 		background-color: black;
 	}
 </style>
@@ -44,7 +45,14 @@
 
 </head>
 
-
+<%
+	session=request.getSession(false);  
+	String uname=(String)session.getAttribute("uname");
+	if(uname == null) 
+	{
+		response.sendRedirect("Login");
+	}
+%>
 
 <body class="cbp-spmenu-push">
 
@@ -54,26 +62,26 @@
 	<div id="page-wrapper">
 		<div class="main-page">
 			<div class="row">
-				<h3 class="title1">Teacher :</h3>
+				<h3 class="title1">Faculty :</h3>
 				<div class=" grids-right widget-shadow">
 				<ul id="myTabs" class="nav nav-tabs" role="tablist">
 					<li role="presentation">
-						<a href="#form" id="all-tab" role="tab" data-toggle="tab">Teacher Form</a>
+						<a href="#form" id="all-tab" role="tab" data-toggle="tab">Faculty Form</a>
 					</li>
 					<li role="presentation" class="active">
-						<a href="#allTeachers" id="deleted-tab" role="tab" data-toggle="tab">View Teacher</a>
+						<a href="#allTeachers" id="deleted-tab" role="tab" data-toggle="tab">View Faculty</a>
 					</li>
 				</ul>
-				<div id="myTabContent" class="tab-content scrollbar1"> 
+				<div id="myTabContent" class="tab-content"> 
 					<div role="tabpanel" class="tab-pane fade" id="form" aria-labelledby="all-tab"> 
 						<p>
 							<div class="tables">
 								<div class="bs-example">
-								<form class="form-horizontal" action="AddTeacherController" method="post" modelAttribute="teacher">
+								<form class="form-horizontal" action="AddFacultyController" method="post" modelAttribute="faculty">
 									<div class="form-group">
-										<label for="focusedinput" class="col-sm-2 control-label">Teacher Name</label>
+										<label for="focusedinput" class="col-sm-2 control-label">Faculty Name</label>
 										<div class="col-sm-8">
-											<input type="text" class="form-control1" id="focusedinput" name="teacher_name" placeholder="Enter Teacher Name" required>
+											<input type="text" class="form-control1" id="focusedinput" name="faculty_name" placeholder="Enter Faculty Name" required>
 										</div>
 									</div>
 									<div class="form-group">
@@ -135,38 +143,35 @@
 										<thead> 
 											<tr> 
 												<th>#</th> 
-												<th>Teacher ID</th>
+												<th>Faculty ID</th>
 												<th>Name</th> 
 												<th>Mobile Number</th> 
 												<th>Qualification</th>
-												<th>Hourly Wage</th>
-												<th>Course</th> 
+												<th>Hourly Wage</th> 
 											</tr> 
 										</thead>
 										<tbody> 
 											<c:set var="count" value="${0 }" />
-											<c:forEach var="teacher" items="${teacherList }">
+											<c:forEach var="faculty" items="${facultyList }">
 												<c:set var="count" value="${count + 1 }" />
 												<tr>
 													<th>${count }</th>
-													<td>${teacher.ID }</td>
-													<td>${teacher.teacher_name }</td>
-													<td>${teacher.mob_no }</td>
-													<td>${teacher.qualification }</td>
-													<td>${teacher.hourly_wage }</td>
+													<td>${faculty.ID }</td>
+													<td>${faculty.faculty_name }</td>
+													<td>${faculty.mob_no }</td>
+													<td>${faculty.qualification }</td>
+													<td>${faculty.hourly_wage }</td>
 													<td>
-														<select class="form-control1">
-															<c:forEach var="teacherCourse" items="${teacher.courseList }">
-																<option>${teacherCourse.course }</option>
-															</c:forEach>
-														</select>
+														<a href="#" onmouseover="popover" data-container="body" data-toggle="popover" data-placement="top" data-content="<c:forEach var="facultyCourse" items="${faculty.courseList }">${facultyCourse.course }, </c:forEach>">
+						  									Course
+														</a>
 													</td>
-													<td><a href="StudentNewCourse?id=${teacher.ID }">Edit</a></td> 
-													<td><a href="ViewStudentDetails?id=${teacher.ID }">Delete</a></td>
+													<td><a href="EditFaculty?id=${faculty.ID }">Edit</a></td> 
+													<td><a href="FacultyDeleteController?id=${faculty.ID }">Delete</a></td>
 												</tr>
 											</c:forEach>
 											<c:if test="${count == 0}">
-												<tr><td colspan="8" style="text-align: center;">No Records Found</td></tr>
+												<tr><td colspan="9" style="text-align: center;">No Records Found</td></tr>
 											</c:if>
 										</tbody>
 									</table>
@@ -175,12 +180,18 @@
 						</p> 
 					</div> 
 				</div>
-			</div>
-				
+			</div>				
 			</div>
 		</div>
 	</div>
 	<!-- main contents end -->
+
+	<!-- Script for Pop Over in Course -->
+	<script>
+		$(function() {
+			$('[data-toggle="popover"]').popover()
+		})
+	</script>
 
 	<!--scrolling js-->
 	<script src="js/jquery.nicescroll.js"></script>

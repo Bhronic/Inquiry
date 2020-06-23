@@ -125,7 +125,7 @@ public class ActivityController {
 		return new ModelAndView("redirect:ViewInquiry");
 	}
 	
-	@RequestMapping("InquiryRetriveActivity")
+	@RequestMapping("InquiryRetrieveActivity")
 	public ModelAndView inquiryRetrieveActivity(@RequestParam String admin, @RequestParam String name) {
 		Activity activity = new Activity();
 		java.util.Date dt1 = Calendar.getInstance().getTime(); 

@@ -6,11 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TeacherCourse {
+public class CourseTeacher {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ID;
+	
+	private int teacher_id;
 	
 	private String course;
 
@@ -20,6 +22,14 @@ public class TeacherCourse {
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+
+	public int getTeacher_id() {
+		return teacher_id;
+	}
+
+	public void setTeacher_id(int teacher_id) {
+		this.teacher_id = teacher_id;
 	}
 
 	public String getCourse() {

@@ -356,6 +356,7 @@ public class StudentController {
 		studentCourse.setFees(fees);
 		studentCourse.setTeacher(request.getParameter("teacher_appointed"));
 		studentCourse.setFeesPaid((double) 0);
+		studentCourse.setLast_fees_paid(joiningDate);
 		
 		List<StudentCourse> studentCourseList = studentDtls.getStudentCourse();
 		studentCourseList.add(studentCourse);
