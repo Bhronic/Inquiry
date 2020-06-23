@@ -33,10 +33,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	rel="stylesheet">
 <!--//webfonts-->
 
-<!-- chart -->
-<script src="js/Chart.js"></script>
-<!-- //chart -->
-
 <!-- Metis Menu -->
 <script src="js/metisMenu.min.js"></script>
 <script src="js/custom.js"></script>
