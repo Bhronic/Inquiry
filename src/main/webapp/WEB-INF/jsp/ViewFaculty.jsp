@@ -162,7 +162,7 @@
 													<td>${faculty.qualification }</td>
 													<td>${faculty.hourly_wage }</td>
 													<td>
-														<a href="#" onmouseover="popover" data-container="body" data-toggle="popover" data-placement="top" data-content="<c:forEach var="facultyCourse" items="${faculty.courseList }">${facultyCourse.course }, </c:forEach>">
+														<a href="#" data-container="body" data-toggle="popover" data-placement="top" data-content="<c:forEach var="facultyCourse" items="${faculty.courseList }">${facultyCourse.course }, </c:forEach>">
 						  									Course
 														</a>
 													</td>
@@ -188,9 +188,9 @@
 
 	<!-- Script for Pop Over in Course -->
 	<script>
-		$(function() {
-			$('[data-toggle="popover"]').popover()
-		})
+		$('[data-toggle="popover"]').popover({ 
+	        trigger: "hover" 
+	    }); 
 	</script>
 
 	<!--scrolling js-->
