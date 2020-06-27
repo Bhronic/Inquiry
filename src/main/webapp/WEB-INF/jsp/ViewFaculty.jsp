@@ -33,8 +33,7 @@
 						for (var i = 0; i < json.length; i++) {
 							if("${inquiry.course }" != json[i].course_name)
 							{
-								$("#data-course-select").append(
-										
+								$("#data-course-select").append(										
 									"<div class='checkbox-inline'><label><input type='checkbox' name='course' value='" +json[i].course_name +"'>" +json[i].course_name +"&emsp;&emsp;</label></div>");	
 							}
 							//<div class='checkbox-inline'><label><input type='checkbox' name='course'> Unchecked</label></div>		
@@ -139,7 +138,8 @@
 						<p>
 							<div class="tables">
 								<div class="bs-example" data-example-id="hoverable-table">
-									<table class="table table-hover"> 
+									<input type="text" id="myInput" onkeyup="searchTable()" placeholder="Search..." title="Type in a name">
+									<table class="table table-hover sortable" id="myTable"> 
 										<thead> 
 											<tr> 
 												<th>#</th> 

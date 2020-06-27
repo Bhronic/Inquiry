@@ -2,6 +2,7 @@
 <%@page import="com.inquiry.model.StudentDetails"%>
 <%@page import="com.inquiry.model.Student"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="tg" tagdir="/WEB-INF/tags"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
@@ -39,7 +40,7 @@
 					<li role="presentation">
 						<a href="#deleted" id="deleted-tab" role="tab" data-toggle="tab">Past Students</a>
 					</li> 
-					<li role="presentation"class="active">
+					<li role="presentation" class="active">
 						<a href="#pending" role="tab" id="pending-tab" data-toggle="tab">Current Students</a>
 					</li> 
 				</ul>
@@ -62,7 +63,7 @@
 										<tbody>
 
 											<c:set var="count" value="${0 }" />
-											<c:forEach var = "student" items = "${viewAllList}">
+											<c:forEach var = "student" items = "${pagedListHolder.pageList}">
 												<c:set var="count" value="${count + 1 }" />
 												<tr>
 													<th>${count }</th>
@@ -79,6 +80,39 @@
 											</c:if>
 										</tbody> 
 									</table>
+<%-- 									<jsp:useBean id="pagedListHolder" scope="request" type="org.springframework.beans.support.PagedListHolder" /> --%>
+<%-- 									<c:url value="/ViewStudent" var="pagedLink"> --%>
+<%-- 										<c:param name="p" value="~" /> --%>
+<%-- 									</c:url> --%>
+<%-- 									<tg:paging pagedListHolder="${pagedListHolder}" pagedLink="${pagedLink}" /> --%>
+									<div class="col-md-6">
+										<ul class="pagination">
+											<li class="disabled"><a href="#">«</a></li>
+											<c:forEach var="c" begin="1" end="${count }">
+												<c:choose>
+													<c:when test="${c == 2 }">
+														<li class="active"><a href="#">${c }</a></li>
+													</c:when>
+													<c:otherwise>
+														<li><a href="">${c }</a></li>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+											<li><a href="#">»</a></li>
+										</ul>
+									</div>
+									<div class="col-md-6" style="float:right"><br>
+										<form class="form-horizontal" action="">
+											<div class="form-group">
+												<div class="col-sm-2">
+													<select id="selector1" class="form-control1">
+														<option>5</option>
+														<option>10</option>	
+													</select>
+												</div>
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
 						</p> 

@@ -3,6 +3,8 @@ package com.inquiry.daoImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.inquiry.dao.CourseDao;
@@ -39,6 +41,16 @@ public class CourseDaoImpl implements CourseDao {
 	@Override
 	public void deleteCourse(int id) {
 		courseRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Course> search(String search) {
+		return courseRepository.search(search);
+	}
+
+	@Override
+	public Page<Course> findPage(Pageable pageable) {
+		return courseRepository.findAll(pageable);
 	}
 
 }

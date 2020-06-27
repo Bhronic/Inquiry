@@ -3,6 +3,8 @@ package com.inquiry.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.inquiry.dao.CourseDao;
@@ -33,6 +35,16 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void deleteCourse(int id) {
 		courseDao.deleteCourse(id);
+	}
+
+	@Override
+	public List<Course> search(String search) {
+		return courseDao.search(search);
+	}
+
+	@Override
+	public Page<Course> findPage(Pageable pageable) {
+		return courseDao.findPage(pageable);
 	}
 
 }

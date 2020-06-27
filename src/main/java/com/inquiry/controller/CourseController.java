@@ -5,12 +5,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.inquiry.model.Course;
@@ -99,6 +103,22 @@ public class CourseController {
 	@GetMapping("/courseList")
 	public ResponseEntity<List<Course>> getCourseList() {
 		return new ResponseEntity<List<Course>>(courseService.viewAllCourse(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/coursePage")
+	public ResponseEntity<List<Course>> getCoursePage() {
+		Page<Course> page = courseService.findPage(PageRequest.of(1, 5));
+		int totalPage = page.getTotalPages();
+		System.out.println(totalPage);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set("totalPage", String.valueOf(totalPage));
+		ResponseEntity<List<Course>> entity = new ResponseEntity<List<Course>>(courseService.findPage(PageRequest.of(1, 5)).getContent(), HttpStatus.OK);
+		return entity;
+	}
+	
+	@GetMapping("/courseSearch")
+	public ResponseEntity<List<Course>> getCourseSearch(@RequestParam String search) {
+		return new ResponseEntity<List<Course>>(courseService.search(search), HttpStatus.OK);
 	}
 
 }

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,14 +95,21 @@ public class StudentController {
 	}
 	
 	@RequestMapping("ViewStudent")
-	public ModelAndView viewInquiry() {
+	public ModelAndView viewInquiry(HttpServletRequest request) {
 		ModelAndView mav = null;
 		
 		List<StudentDetails> viewAllList = studentService.viewAllStudent();
 		List<StudentDetails> viewDeletedList = studentService.viewDeletedStudent(1);
 		List<StudentDetails> viewPendingList = studentService.viewPendingStudent(0);
 		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		PagedListHolder pagedListHolder = new PagedListHolder(viewAllList);
+		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
+		pagedListHolder.setPage(page);
+		pagedListHolder.setPageSize(3);
+		
 		mav = new ModelAndView("ViewStudent");
+		mav.addObject("pagedListHolder", pagedListHolder);
 		mav.addObject("viewAllList", viewAllList);
 		mav.addObject("viewDeletedList", viewDeletedList);
 		mav.addObject("viewPendingList", viewPendingList);
